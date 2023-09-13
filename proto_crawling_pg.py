@@ -1,14 +1,15 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup as bs
 
-# question_num = input('문제 번호: ')
 question_num = 118668
 
+# language =  javascript | python3
 language = 'javascript'
 
 # Users can customize their TAB_SIZE who select language JavaScript.
 TAB_SIZE = 4
 TAB_STR = ' ' * TAB_SIZE
+
 
 # Crawling by BS4
 def get_soup(question_num=question_num, language=language):
@@ -81,6 +82,7 @@ def combine_test_case_code(test_case_info, string_function_verdict):
         param = param_arr[idx]
         string_test_case_arr.append(param)
 
+    # Set test cases to string by language type that user selected
     string_loop_and_test_case = make_string_loop_and_test_case_by_language_type(string_test_case_arr, joined_param_text)
 
     return '\n\n'.join([string_function_verdict, test_case_string, string_loop_and_test_case])
@@ -107,6 +109,7 @@ def make_string_loop_and_test_case_by_language_type(string_test_case_arr, joined
 
         return f'testCases.forEach((testCase, caseNo) => {{{TAB_STR}{string_test_case_joined});'
 
+
 # Step 2. Get initial Solution Function
 def get_raw_solution_code_text(soup):
     return str(soup.find('div', {'id': 'tour3'}).find('input').get('value'))
@@ -129,5 +132,3 @@ def make_our_world_colourful(question_num=question_num, language=language):
     raw_solution_code_text = get_raw_solution_code_text(soup)
 
     return make_complete_below_code_text(raw_solution_code_text, complete_below_code_text)
-
-print(make_our_world_colourful())
