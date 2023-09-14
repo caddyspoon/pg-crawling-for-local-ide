@@ -56,7 +56,6 @@ def make_test_case_string_by_language_type(test_case_arr, language=language):
 
         if language == 'python3':
             test_case_string = f'test_cases = [{test_case_string}]'
-            test_case_string = '\n'.join([test_case_string, 'test_cases_length = len(test_cases)'])
         elif language == 'javascript':
             test_case_string = f'const testCases = [{test_case_string}];'
 
@@ -66,10 +65,10 @@ def make_test_case_string_by_language_type(test_case_arr, language=language):
 # Step 1-3. Now let's make the codes that check if you make right codes.
 def make_verdict_function_text(language=language):
     if language == 'python3':
-        return f'def verdict(case_no, result, your_answer, test_cases_length):\n{TAB_STR}end_option = \'\\n\\n\'\n{TAB_STR}if case_no + 1 == test_cases_length:\n{TAB_STR}{TAB_STR}end_option = \'\'\n{TAB_STR}print(f\'테스트 케이스 #{{str(case_no+1).zfill(2)}}번\')\n{TAB_STR}if result == your_answer:\n{TAB_STR*2}print(\'정답입니다!\', end = end_option)\n{TAB_STR}else:\n{TAB_STR*2}print(f\'실행한 결괏값 {{your_answer}}이(가) 기댓값 {{result}}와(과) 다릅니다.\', end = end_option)'
+        return f'def verdict(case_no, result, your_answer):\n{TAB_STR}print(f\'테스트 케이스 #{{str(case_no+1).zfill(2)}}번\')\n{TAB_STR}if result == your_answer:\n{TAB_STR*2}print(\'정답입니다!\')\n{TAB_STR}else:\n{TAB_STR*2}print(f\'실행한 결괏값 {{your_answer}}이(가) 기댓값 {{result}}와(과) 다릅니다.\')'
 
     elif language == 'javascript':
-        return f'const verdict = (caseNo, result, yourAnswer) => {{\n{TAB_STR}if (caseNo) {{\n{TAB_STR}{TAB_STR}console.log("");\n{TAB_STR}}}\n{TAB_STR}console.log(`테스트 케이스 #${{String(caseNo+1).padStart(2, \'0\')}}번`);\n{TAB_STR}if (result === yourAnswer) {{\n{TAB_STR*2}console.log(\'정답입니다!\');\n{TAB_STR}}} else {{\n{TAB_STR*2}console.log(`실행한 결괏값 ${{yourAnswer}}이(가) 기댓값 ${{result}}와(과) 다릅니다.`);\n{TAB_STR}}}\n}};'
+        return f'const verdict = (caseNo, result, yourAnswer) => {{\n{TAB_STR}console.log(`테스트 케이스 #${{String(caseNo+1).padStart(2, \'0\')}}번`);\n{TAB_STR}if (result === yourAnswer) {{\n{TAB_STR*2}console.log(\'정답입니다!\');\n{TAB_STR}}} else {{\n{TAB_STR*2}console.log(`실행한 결괏값 ${{yourAnswer}}이(가) 기댓값 ${{result}}와(과) 다릅니다.`);\n{TAB_STR}}}\n}};'
 
 
 def combine_test_case_code(test_case_info, string_function_verdict):
@@ -88,14 +87,24 @@ def combine_test_case_code(test_case_info, string_function_verdict):
     return '\n\n'.join([string_function_verdict, test_case_string, string_loop_and_test_case])
 
 
+def make_notice_print_area(language=language):
+    if language == 'python3':
+        return f'{TAB_STR}if case_no > 0:\n{TAB_STR}{TAB_STR}print(\'\')'
+    elif language == 'javascript':
+        return f'{TAB_STR}if (caseNo > 0) {{\n{TAB_STR}{TAB_STR}console.log("");\n{TAB_STR}}}'
+
+
 def make_string_loop_and_test_case_by_language_type(string_test_case_arr, joined_param_text, language=language):
     if language == 'python3':
         string_test_case_joined = ''
         for idx, param in enumerate(string_test_case_arr):
             string_test_case_joined = '\n'.join([string_test_case_joined, f'{TAB_STR}{param} = test_case[{idx}]'])
         
+        make_blank_row = make_notice_print_area()
+        string_test_case_joined = '\n\n'.join([string_test_case_joined, make_blank_row])
+
         string_test_case_joined = '\n\n'.join([string_test_case_joined, f'{TAB_STR}your_result = solution({joined_param_text})', ])
-        string_test_case_joined = '\n'.join([string_test_case_joined, f'{TAB_STR}verdict(case_no, your_result, result, test_cases_length)'])
+        string_test_case_joined = '\n'.join([string_test_case_joined, f'{TAB_STR}verdict(case_no, your_result, result)'])
 
         return f'for case_no, test_case in enumerate(test_cases):{string_test_case_joined}'
 
@@ -104,6 +113,9 @@ def make_string_loop_and_test_case_by_language_type(string_test_case_arr, joined
         for idx, param in enumerate(string_test_case_arr):
             string_test_case_joined = '\n'.join([string_test_case_joined, f'{TAB_STR}const {param} = testCase[{idx}];'])
         
+        make_blank_row = make_notice_print_area()
+        string_test_case_joined = '\n\n'.join([string_test_case_joined, make_blank_row])
+
         string_test_case_joined = '\n\n'.join([string_test_case_joined, f'{TAB_STR}const yourResult = solution({joined_param_text});', ])
         string_test_case_joined = '\n'.join([string_test_case_joined, f'{TAB_STR}verdict(caseNo, yourResult, result);\n}}'])
 
@@ -132,3 +144,6 @@ def make_our_world_colourful(question_num=question_num, language=language):
     raw_solution_code_text = get_raw_solution_code_text(soup)
 
     return make_complete_below_code_text(raw_solution_code_text, complete_below_code_text)
+
+
+print(make_our_world_colourful())
