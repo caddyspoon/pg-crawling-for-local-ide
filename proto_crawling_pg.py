@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup as bs
 question_num = 118668
 
 # language =  javascript | python3
-language = 'javascript'
+language = 'python3'
 
 # Users can customize their TAB_SIZE who select language JavaScript.
 TAB_SIZE = 4
