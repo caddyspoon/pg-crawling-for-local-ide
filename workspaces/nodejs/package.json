@@ -1,0 +1,15 @@
+{
+	"name": "gold-mine",
+	"version": "1.0.0",
+	"description": "Programmers Crawling Service for Local Ide User",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "caddyspoon",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.18.2"
+	}
+}

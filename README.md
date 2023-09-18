@@ -6,6 +6,8 @@
 
 1. VENV 활성화 (Windows)
 
+   > python -m venv <가상환경 이름>으로 생성된 가상환경의 실행
+
    - `source venv/bin/activate`
    - 비활성화의 경우 `deactivate`
 
