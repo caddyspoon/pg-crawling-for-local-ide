@@ -1,0 +1,9 @@
+.custom-style {
+	width: 5%;
+	height: 100%;
+	background-color: #0f487e;
+	color: white;
+	font-size: 100%;
+	border: none;
+	border-radius: 10% 0 0 10%;
+}

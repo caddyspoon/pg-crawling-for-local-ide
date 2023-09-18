@@ -1,0 +1,12 @@
+.form-wrapper {
+	width: 100%;
+	height: 80px;
+	text-align: center;
+	vertical-align: middle;
+	margin: 0px;
+	padding: 0px;
+}
+
+.form-body {
+	height: 100%;
+}
