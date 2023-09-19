@@ -1,8 +1,11 @@
+import sys
 from urllib.request import urlopen
+
 from bs4 import BeautifulSoup as bs
 
-question_num = 118668
-
+# Default Value Setup
+# question_number -> 118668: 코딩테스트 연습
+question_number = 118668
 # language =  javascript | python3
 language = 'python3'
 
@@ -12,9 +15,9 @@ TAB_STR = ' ' * TAB_SIZE
 
 
 # Crawling by BS4
-def get_soup(question_num=question_num, language=language):
+def get_soup(language=language, question_number=question_number):
     # Open HTML by Address
-    URL = f"https://school.programmers.co.kr/learn/courses/30/lessons/{question_num}?language={language}"
+    URL = f"https://school.programmers.co.kr/learn/courses/30/lessons/{question_number}?language={language}"
     html = urlopen(URL)
 
     return bs(html, "html.parser", from_encoding="utf-8")
@@ -136,8 +139,12 @@ def make_complete_below_code_text(raw_solution_code_text, complete_below_code_te
     return '\n\n\n'.join([raw_solution_code_text, string_caution, complete_below_code_text])
 
 
-def make_our_world_colourful(question_num=question_num, language=language):
-    soup = get_soup(question_num, language)
+def make_our_world_colourful(language=language, question_number=question_number):
+    try:
+        soup = get_soup(language, question_number)
+    except:
+        return "QUESTION NOT EXIST"
+
     test_case_info = make_test_case_string(soup)
     string_function_verdict = make_verdict_function_text()
     complete_below_code_text = combine_test_case_code(test_case_info, string_function_verdict)
@@ -146,13 +153,17 @@ def make_our_world_colourful(question_num=question_num, language=language):
     return make_complete_below_code_text(raw_solution_code_text, complete_below_code_text)
 
 
-def main():
-    import sys
-        
-    result_string = make_our_world_colourful().encode('utf8')
-    sys.stdout.buffer.write(result_string)
+def main(selected_language, question_number):
+    try:
+        result_string = make_our_world_colourful(selected_language, question_number).encode('utf8')
+        sys.stdout.buffer.write(result_string)
 
-    # print(result_string)
+    except:
+        print("CRAWLING ERROR")
+
 
 if __name__ == '__main__':
-    main()
+    selected_language = sys.argv[1]
+    question_number = sys.argv[2]
+
+    main(selected_language, question_number)
