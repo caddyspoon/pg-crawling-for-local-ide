@@ -4,11 +4,12 @@
 
 ### Python/Django 명령어
 
-1. VENV 활성화 (Windows)
+1. VENV 활성화
 
    > python -m venv <가상환경 이름>으로 생성된 가상환경의 실행
 
-   - `source venv/bin/activate`
+   - MacOS: `source venv/bin/activate`
+   - Windows: `source venv/Scripts/activate`
    - 비활성화의 경우 `deactivate`
 
 2. 파이썬 패키지 프리징 (Windows)
