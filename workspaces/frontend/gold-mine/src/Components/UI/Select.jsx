@@ -1,15 +1,35 @@
+import { useState, useEffect } from "react";
+
 import style from "./Select.module.css";
 
-const Select = ({ selectedValue, onChangeHandler, selectOptions }) => {
+const Select = ({
+	initText,
+	selectedValue,
+	onChangeHandler,
+	selectOptions,
+}) => {
+	const [isSelected, setIsSelected] = useState(false);
+	useEffect(() => {
+		if (selectedValue) {
+			setIsSelected(true);
+		}
+	}, [isSelected, selectedValue]);
+
 	return (
 		<select
-			className={`${style["custom-style"]}`}
+			required
+			className={`${style["custom-style"]} ${
+				isSelected ? "" : style["notSelected"]
+			}`}
 			value={selectedValue}
 			onChange={onChangeHandler}
 		>
-			{selectOptions.map((option) => (
-				<option value={option} key={option}>
-					{option}
+			<option className={`${style["init-text"]}`} value="" disabled>
+				{initText}
+			</option>
+			{Object.keys(selectOptions).map((key) => (
+				<option value={key} key={key}>
+					{selectOptions[key]}
 				</option>
 			))}
 		</select>

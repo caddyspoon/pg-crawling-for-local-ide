@@ -1,8 +1,15 @@
 .custom-input {
-	width: 20%;
+	width: 70%;
 	height: 100%;
 	border: none;
 
+	font-size: 20px;
+
 	padding: 0;
 	margin: 0;
+}
+
+textarea:focus,
+input:focus {
+	outline: none;
 }
