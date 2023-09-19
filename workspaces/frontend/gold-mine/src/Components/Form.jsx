@@ -11,7 +11,7 @@ import Button from "./UI/Button";
 import style from "./Form.module.css";
 
 // FIXME Hard Coding Text
-const SELECT_INIT_TEXT = "언어 선택";
+const SELECT_INIT_TEXT = "언어 선택!";
 const INPUT_PLACEHOLDER = "Enter the question Number";
 const CLICK_TEXT = "Search!";
 
