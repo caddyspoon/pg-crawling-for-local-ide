@@ -1,7 +1,10 @@
 import { useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCircleInfo,
+  faQuestionCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 import LoaderOverlay from "./UI/LoaderOverlay";
 
@@ -20,7 +23,7 @@ const Form = () => {
           Please copy{" "}
           <span className={`${style["description-span"]}`}>
             {" "}
-            <FontAwesomeIcon icon={faCircleInfo} /> the question number
+            <FontAwesomeIcon icon={faQuestionCircle} /> the question number
           </span>{" "}
           and paste it to the input box below.
         </h3>
