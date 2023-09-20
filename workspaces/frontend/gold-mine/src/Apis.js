@@ -26,11 +26,11 @@ const getQuestionCode = async (reqData) => {
 	const response = await fetch(`${API_ROOT}/question?${queryStrings}`);
 
 	if (response.ok) {
-		const quetionData = await response.json();
+		const { data } = await response.json();
 
 		return {
 			ok: true,
-			data: quetionData,
+			data: data,
 		};
 	} else {
 		if (response.status === 400) {

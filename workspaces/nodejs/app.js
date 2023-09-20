@@ -14,22 +14,22 @@ const ERRORS = {
 	CRAWLING_ERROR: "CRAWLING ERROR",
 };
 
-let langReqCounter = 1;
+let langReqCounter = 0;
 app.get("/langauge-type", (req, res) => {
 	langReqCounter += 1;
 
-	console.log("GET Requset");
-	console.log("langReq Counts: ", langReqCounter);
+	console.log("GET Requset | /language-type");
+	console.log(`langReq Counts: ${langReqCounter}`);
 	console.log("Language Request\n");
 
 	res.send(LANGAUGE_TYPE);
 });
 
-let counter = 1;
+let questionReqCounter = 0;
 app.get("/question", (req, res) => {
 	const { selectedLanguage, questionNo } = req.query;
 
-	console.log("GET Request");
+	console.log("GET Request | /question");
 
 	const result = spawn("python", [
 		"./crawling/Crawling.py",
@@ -38,22 +38,26 @@ app.get("/question", (req, res) => {
 	]);
 
 	result.stdout.on("data", (data) => {
-		counter += 1;
-		console.log(`Request counts: ${counter}`);
+		questionReqCounter += 1;
+		console.log(`Request counts: ${questionReqCounter}`);
 		console.log("requset finished\n");
 
 		const dataString = data.toString();
-		if (dataString === ERRORS.QUESTION_NOT_EXIST) {
-			console.log(ERRORS.QUESTION_NOT_EXIST);
+		const resJson = JSON.parse(dataString);
 
-			return res.status(400).send({ message: ERRORS.QUESTION_NOT_EXIST });
-		} else if (dataString === ERRORS.CRAWLING_ERROR) {
-			console.log(ERRORS.CRAWLING_ERROR);
+		if (resJson.status === "failed") {
+			if (resJson.message === ERRORS.QUESTION_NOT_EXIST) {
+				console.log(ERRORS.QUESTION_NOT_EXIST);
 
-			return res.status(500).send({ message: ERRORS.CRAWLING_ERROR });
-		} else {
+				return res.status(400).send({ message: ERRORS.QUESTION_NOT_EXIST });
+			} else if (resJson.message === ERRORS.CRAWLING_ERROR) {
+				console.log(ERRORS.CRAWLING_ERROR);
+
+				return res.status(500).send({ message: ERRORS.CRAWLING_ERROR });
+			}
+		} else if (resJson.status === "success") {
 			const dataResult = {
-				data: dataString,
+				data: resJson.data,
 			};
 
 			res.send(dataResult);

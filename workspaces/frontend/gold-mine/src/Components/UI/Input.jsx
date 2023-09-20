@@ -1,13 +1,12 @@
 import style from "./Input.module.css";
 
-const Input = ({ placeholder, inputValue, onChangeHandler, inputType }) => {
+const Input = ({ placeholder, inputValue, onChangeHandler }) => {
 	return (
 		<input
 			className={`${style["custom-input"]}`}
-			placeholder={placeholder}
+			placeholder={`43105 | ${placeholder}`}
 			value={inputValue}
 			onChange={onChangeHandler}
-			type={inputType}
 		/>
 	);
 };

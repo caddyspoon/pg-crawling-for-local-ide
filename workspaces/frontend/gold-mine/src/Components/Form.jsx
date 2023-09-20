@@ -3,16 +3,20 @@ import { useState, useEffect } from "react";
 import { getLanguageType, getQuestionCode } from "../Apis";
 
 import Swal from "sweetalert2";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
 import Select from "./UI/Select";
 import Input from "./UI/Input";
 import Button from "./UI/Button";
+import LoaderOverlay from "./UI/LoaderOverlay";
+import Tooltip from "./UI/Tooltip";
 
 import style from "./Form.module.css";
 
-// FIXME Hard Coding Text
-const SELECT_INIT_TEXT = "언어 선택!";
-const INPUT_PLACEHOLDER = "Enter the question Number";
+// FIXME: Hard Coding Text
+const SELECT_INIT_TEXT = "Langauge!";
+const INPUT_PLACEHOLDER = "Question Number";
 const CLICK_TEXT = "Search!";
 
 const Form = () => {
@@ -24,6 +28,9 @@ const Form = () => {
 
 	const [selectedLanguage, setSelectedLanguage] = useState("");
 	const [questionNo, setQuestionNo] = useState("");
+
+	const [inputTimer, setInputTimer] = useState(0);
+	const [isInputNotValid, setIsInputNotValid] = useState(false);
 
 	useEffect(() => {
 		if (isInit) {
@@ -47,12 +54,42 @@ const Form = () => {
 		}
 	}, [selectedLanguage, questionNo]);
 
+	const isValidInput = (inputValue) => {
+		const reg = /^[0-9]*$/;
+		return reg.test(inputValue);
+	};
+
 	const languageChangeHandler = (event) => {
 		setSelectedLanguage(event.target.value);
 	};
 
+	const inputValidCounterDebouncing = () => {
+		if (!isInputNotValid) {
+			setIsInputNotValid(true);
+		}
+
+		if (inputTimer) {
+			clearTimeout(inputTimer);
+		}
+
+		const newTimer = setTimeout(() => {
+			setIsInputNotValid(false);
+		}, 2000);
+		setInputTimer(newTimer);
+	};
+
 	const questionNoHandler = (event) => {
-		setQuestionNo(event.target.value);
+		const enteredValue = event.target.value;
+		if (!isValidInput(enteredValue)) {
+			inputValidCounterDebouncing();
+			return;
+		}
+
+		if (enteredValue.length > 6) {
+			return;
+		}
+
+		setQuestionNo(enteredValue);
 	};
 
 	const buttonHandler = () => {
@@ -76,9 +113,14 @@ const Form = () => {
 			setIsLoading(false);
 
 			if (resData.ok) {
-				navigator.clipboard.writeText(resData.data);
+				navigator.clipboard.writeText(resData.data.questionCode);
 
-				Swal.fire("복사가 아주 성공적!", "IDE에 붙여넣기 해보세요!");
+				Swal.fire({
+					title: "복사가 아주 성공적!",
+					text: `[${resData.data.title}]의 코드를 가져왔습니다.`,
+					footer: "코드가 클립보드에 복사되었습니다. IDE에 붙여넣기 하세요!",
+					confirmButtonColor: "#014b7d",
+				});
 			} else {
 				Swal.fire(resData.error);
 			}
@@ -91,19 +133,19 @@ const Form = () => {
 		return;
 	}
 
-	// FIXME: 스피너와 모달 활용
-	if (isLoading) {
-		return (
-			<div className={`${style["form-wrapper"]}`}>
-				<h1>Loading</h1>
-			</div>
-		);
-	}
-
 	return (
 		<div className={`${style["form-wrapper"]}`}>
+			{isLoading && <LoaderOverlay />}
 			<div className={`${style["form-body"]}`}>
-				<h3>DUMMY TEXT</h3>
+				<h2>DUMMY TEXT</h2>
+				<h3>
+					Please copy{" "}
+					<span className={`${style["description-span"]}`}>
+						{" "}
+						<FontAwesomeIcon icon={faCircleInfo} /> the question number
+					</span>{" "}
+					and paste it to the input box below.
+				</h3>
 				<div className={`${style["search-bar"]}`}>
 					<Select
 						initText={SELECT_INIT_TEXT}
@@ -115,14 +157,13 @@ const Form = () => {
 						placeholder={INPUT_PLACEHOLDER}
 						inputValue={questionNo}
 						onChangeHandler={questionNoHandler}
-						// TODO: 문제 이름을 검색하여 문제 번호외 문제 이름으로도 검색이 가능하게.
-						inputType="number"
 					/>
 					<Button
 						onClickHandler={buttonHandler}
 						description={CLICK_TEXT}
 						isValid={buttonValidation}
 					/>
+					<Tooltip isVisible={isInputNotValid} />
 				</div>
 			</div>
 		</div>

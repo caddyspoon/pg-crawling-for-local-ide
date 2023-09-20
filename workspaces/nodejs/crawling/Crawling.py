@@ -1,13 +1,14 @@
 import sys
 from urllib.request import urlopen
 
+import json
 from bs4 import BeautifulSoup as bs
 
 # Default Value Setup
 # question_number -> 118668: 코딩테스트 연습
-question_number = 118668
+default_question_number = 118668
 # language =  javascript | python3
-language = 'python3'
+default_language = 'javascript'
 
 # Users can customize their TAB_SIZE who select language JavaScript.
 TAB_SIZE = 4
@@ -15,7 +16,7 @@ TAB_STR = ' ' * TAB_SIZE
 
 
 # Crawling by BS4
-def get_soup(language=language, question_number=question_number):
+def get_soup(language, question_number):
     # Open HTML by Address
     URL = f"https://school.programmers.co.kr/learn/courses/30/lessons/{question_number}?language={language}"
     html = urlopen(URL)
@@ -23,9 +24,14 @@ def get_soup(language=language, question_number=question_number):
     return bs(html, "html.parser", from_encoding="utf-8")
 
 
-def make_test_case_string(soup):
+def get_question_name(soup):
+    return soup.find('ul', {'id': 'tab'}).find('li').text.strip()
+
+
+def make_test_case_string(soup, language):
     # Step 1. Get Test Cases
-    qdiv = soup.find('div', {'id': 'tour2'}).find('div').find('div').find('table')
+    qdiv = soup.find('div', {'id': 'tour2'}).find(
+        'div').find('div').find('table')
 
     # Step 1-1. Get Test Case Params' Names
     q_params = qdiv.find('thead').find_all('th')
@@ -40,10 +46,12 @@ def make_test_case_string(soup):
 
     test_case_arr = []
     for test_case in q_test_cases:
-        crnt_str = ', '.join(list(map(lambda x : x.text, test_case.find_all('td'))))
+        crnt_str = ', '.join(
+            list(map(lambda x: x.text, test_case.find_all('td'))))
         test_case_arr.append(crnt_str)
 
-    test_case_string = make_test_case_string_by_language_type(test_case_arr)
+    test_case_string = make_test_case_string_by_language_type(
+        test_case_arr, language)
 
     return {
         'param_arr': param_arr,
@@ -53,9 +61,10 @@ def make_test_case_string(soup):
     }
 
 
-def make_test_case_string_by_language_type(test_case_arr, language=language):
+def make_test_case_string_by_language_type(test_case_arr, language):
     if language in ['python3', 'javascript']:
-        test_case_string = ', '.join([f'[{test_case_str}]' for test_case_str in test_case_arr])
+        test_case_string = ', '.join(
+            [f'[{test_case_str}]' for test_case_str in test_case_arr])
 
         if language == 'python3':
             test_case_string = f'test_cases = [{test_case_string}]'
@@ -66,7 +75,7 @@ def make_test_case_string_by_language_type(test_case_arr, language=language):
 
 
 # Step 1-3. Now let's make the codes that check if you make right codes.
-def make_verdict_function_text(language=language):
+def make_verdict_function_text(language):
     if language == 'python3':
         return f'def verdict(case_no, result, your_answer):\n{TAB_STR}print(f\'테스트 케이스 #{{str(case_no+1).zfill(2)}}번\')\n{TAB_STR}if result == your_answer:\n{TAB_STR*2}print(\'정답입니다!\')\n{TAB_STR}else:\n{TAB_STR*2}print(f\'실행한 결괏값 {{your_answer}}이(가) 기댓값 {{result}}와(과) 다릅니다.\')'
 
@@ -74,7 +83,7 @@ def make_verdict_function_text(language=language):
         return f'const verdict = (caseNo, result, yourAnswer) => {{\n{TAB_STR}console.log(`테스트 케이스 #${{String(caseNo+1).padStart(2, \'0\')}}번`);\n{TAB_STR}if (result === yourAnswer) {{\n{TAB_STR*2}console.log(\'정답입니다!\');\n{TAB_STR}}} else {{\n{TAB_STR*2}console.log(`실행한 결괏값 ${{yourAnswer}}이(가) 기댓값 ${{result}}와(과) 다릅니다.`);\n{TAB_STR}}}\n}};'
 
 
-def combine_test_case_code(test_case_info, string_function_verdict):
+def combine_test_case_code(test_case_info, string_function_verdict, language):
     param_arr = test_case_info['param_arr']
     joined_param_text = test_case_info['joined_param_text']
     test_case_string = test_case_info['test_case_string']
@@ -85,42 +94,51 @@ def combine_test_case_code(test_case_info, string_function_verdict):
         string_test_case_arr.append(param)
 
     # Set test cases to string by language type that user selected
-    string_loop_and_test_case = make_string_loop_and_test_case_by_language_type(string_test_case_arr, joined_param_text)
+    string_loop_and_test_case = make_string_loop_and_test_case_by_language_type(
+        string_test_case_arr, joined_param_text, language)
 
     return '\n\n'.join([string_function_verdict, test_case_string, string_loop_and_test_case])
 
 
-def make_notice_print_area(language=language):
+def make_notice_print_area(language):
     if language == 'python3':
         return f'{TAB_STR}if case_no > 0:\n{TAB_STR}{TAB_STR}print(\'\')'
     elif language == 'javascript':
         return f'{TAB_STR}if (caseNo > 0) {{\n{TAB_STR}{TAB_STR}console.log("");\n{TAB_STR}}}'
 
 
-def make_string_loop_and_test_case_by_language_type(string_test_case_arr, joined_param_text, language=language):
+def make_string_loop_and_test_case_by_language_type(string_test_case_arr, joined_param_text, language):
     if language == 'python3':
         string_test_case_joined = ''
         for idx, param in enumerate(string_test_case_arr):
-            string_test_case_joined = '\n'.join([string_test_case_joined, f'{TAB_STR}{param} = test_case[{idx}]'])
-        
-        make_blank_row = make_notice_print_area()
-        string_test_case_joined = '\n\n'.join([string_test_case_joined, make_blank_row])
+            string_test_case_joined = '\n'.join(
+                [string_test_case_joined, f'{TAB_STR}{param} = test_case[{idx}]'])
 
-        string_test_case_joined = '\n\n'.join([string_test_case_joined, f'{TAB_STR}your_result = solution({joined_param_text})', ])
-        string_test_case_joined = '\n'.join([string_test_case_joined, f'{TAB_STR}verdict(case_no, your_result, result)'])
+        make_blank_row = make_notice_print_area(language)
+        string_test_case_joined = '\n\n'.join(
+            [string_test_case_joined, make_blank_row])
+
+        string_test_case_joined = '\n\n'.join(
+            [string_test_case_joined, f'{TAB_STR}your_result = solution({joined_param_text})', ])
+        string_test_case_joined = '\n'.join(
+            [string_test_case_joined, f'{TAB_STR}verdict(case_no, your_result, result)'])
 
         return f'for case_no, test_case in enumerate(test_cases):{string_test_case_joined}'
 
     elif language == 'javascript':
         string_test_case_joined = ''
         for idx, param in enumerate(string_test_case_arr):
-            string_test_case_joined = '\n'.join([string_test_case_joined, f'{TAB_STR}const {param} = testCase[{idx}];'])
-        
-        make_blank_row = make_notice_print_area()
-        string_test_case_joined = '\n\n'.join([string_test_case_joined, make_blank_row])
+            string_test_case_joined = '\n'.join(
+                [string_test_case_joined, f'{TAB_STR}const {param} = testCase[{idx}];'])
 
-        string_test_case_joined = '\n\n'.join([string_test_case_joined, f'{TAB_STR}const yourResult = solution({joined_param_text});', ])
-        string_test_case_joined = '\n'.join([string_test_case_joined, f'{TAB_STR}verdict(caseNo, yourResult, result);\n}}'])
+        make_blank_row = make_notice_print_area(language)
+        string_test_case_joined = '\n\n'.join(
+            [string_test_case_joined, make_blank_row])
+
+        string_test_case_joined = '\n\n'.join(
+            [string_test_case_joined, f'{TAB_STR}const yourResult = solution({joined_param_text});', ])
+        string_test_case_joined = '\n'.join(
+            [string_test_case_joined, f'{TAB_STR}verdict(caseNo, yourResult, result);\n}}'])
 
         return f'testCases.forEach((testCase, caseNo) => {{{TAB_STR}{string_test_case_joined});'
 
@@ -130,7 +148,7 @@ def get_raw_solution_code_text(soup):
     return str(soup.find('div', {'id': 'tour3'}).find('input').get('value'))
 
 
-def make_complete_below_code_text(raw_solution_code_text, complete_below_code_text, language=language):
+def make_complete_below_code_text(raw_solution_code_text, complete_below_code_text, language):
     if language == 'python3':
         string_caution = '\"\"\"\n하단 코드를 제외하고 제출하시기 바랍니다.\n\"\"\"'
     elif language == 'javascript':
@@ -139,27 +157,49 @@ def make_complete_below_code_text(raw_solution_code_text, complete_below_code_te
     return '\n\n\n'.join([raw_solution_code_text, string_caution, complete_below_code_text])
 
 
-def make_our_world_colourful(language=language, question_number=question_number):
+def make_our_world_colourful(language=default_language, question_number=default_question_number):
     try:
         soup = get_soup(language, question_number)
     except:
-        return "QUESTION NOT EXIST"
+        error_type = 'QUESTION NOT EXIST'
+        throw_error(error_type)
+        return
 
-    test_case_info = make_test_case_string(soup)
-    string_function_verdict = make_verdict_function_text()
-    complete_below_code_text = combine_test_case_code(test_case_info, string_function_verdict)
-    raw_solution_code_text = get_raw_solution_code_text(soup)
+    try:
+        question_name = get_question_name(soup)
+        test_case_info = make_test_case_string(soup, language)
+        string_function_verdict = make_verdict_function_text(language)
+        complete_below_code_text = combine_test_case_code(
+            test_case_info, string_function_verdict, language)
+        raw_solution_code_text = get_raw_solution_code_text(soup)
 
-    return make_complete_below_code_text(raw_solution_code_text, complete_below_code_text)
+        return {
+            'status': 'success',
+            'data': {
+                'title': question_name,
+                'questionCode': make_complete_below_code_text(raw_solution_code_text, complete_below_code_text, language)
+            }}
+    except:
+        error_type = 'CRAWLING ERROR'
+        throw_error(error_type)
 
 
 def main(selected_language, question_number):
-    try:
-        result_string = make_our_world_colourful(selected_language, question_number).encode('utf8')
-        sys.stdout.buffer.write(result_string)
+    result_info = make_our_world_colourful(
+        selected_language, question_number)
+    if result_info:
+        json_res = json.dumps(result_info)
+        print(json_res)
 
-    except:
-        print("CRAWLING ERROR")
+
+def throw_error(message):
+    error_info = {
+        'status': 'failed',
+        'message': message
+    }
+
+    json_res = json.dumps(error_info)
+    print(json_res)
 
 
 if __name__ == '__main__':
