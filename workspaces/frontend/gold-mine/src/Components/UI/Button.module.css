@@ -1,6 +1,6 @@
 .custom-button {
 	height: 100%;
-	background-color: #0f487e;
+	background-color: var(--classic-blue);
 	color: white;
 	font-size: 100%;
 	border: none;
@@ -8,10 +8,10 @@
 	cursor: pointer;
 
 	transition-property: background-color;
-	transition-duration: 0.2s;
+	transition-duration: 0.1s;
 }
 
 .custom-button:disabled {
-	background-color: #b4b4b4;
+	background-color: var(--not-selected);
 	cursor: default;
 }

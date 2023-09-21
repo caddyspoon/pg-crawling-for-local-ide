@@ -1,6 +1,6 @@
 import style from "./Spinner.module.css";
 
-// This component is made for reference the site below:
+// This component is made by refferring to the site below:
 // https://dev.to/kirteshbansal/spinner-loader-in-react-using-css-458h
 
 const Spinner = () => {

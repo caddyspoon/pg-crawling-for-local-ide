@@ -1,0 +1,16 @@
+.footer-wrapper {
+	position: absolute;
+	bottom: 0;
+
+	width: 100%;
+
+	background-color: var(--footer-black);
+	color: white;
+
+	box-shadow: var(--upper-shadow);
+}
+
+.footer-wrapper > p {
+	padding-inline: 20px;
+	text-align: start;
+}

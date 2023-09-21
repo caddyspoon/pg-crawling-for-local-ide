@@ -1,0 +1,13 @@
+/* Wrapper */
+.form-wrapper {
+	width: 100%;
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+}
+
+/* Form */
+.form-body {
+	/* margin-top: 200px; */
+	height: 100%;
+}

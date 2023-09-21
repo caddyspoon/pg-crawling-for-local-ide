@@ -1,15 +1,35 @@
 import style from "./Tooltip.module.css";
 
-const Tooltip = ({ isVisible }) => {
+// This component is not completed.
+
+const Tooltip = ({
+	isVisible,
+	innerContent,
+	tooltipType = "text",
+	isUpperTooltip = false,
+}) => {
+	const TOOLTIP_CONTENT = {
+		text: (
+			<div className={`${style["tooltip-content"]}`}>
+				<p>{innerContent}</p>
+			</div>
+		),
+		alertText: (
+			<div className={`${style["tooltip-content"]} ${style["alert-tooltip"]}`}>
+				<p>{innerContent}</p>
+			</div>
+		),
+		// media: <div className={`${style["tooltip-content"]}`}>{innerContent}</div>,
+	};
+
 	return (
-		<div
-			className={`${style["tooltip"]} ${
+		<span
+			className={`${style["tooltip-wrapper"]} ${
 				isVisible ? style["show-up"] : style["go-home"]
 			}`}
 		>
-			<p>Please Enter Num!</p>
-			{/* <p>숫자만 입력할 수 있어요!</p> */}
-		</div>
+			{TOOLTIP_CONTENT[tooltipType]}
+		</span>
 	);
 };
 

@@ -18,7 +18,7 @@ let langReqCounter = 0;
 app.get("/langauge-type", (req, res) => {
 	langReqCounter += 1;
 
-	console.log("GET Requset | /language-type");
+	console.log("GET Request | /language-type");
 	console.log(`langReq Counts: ${langReqCounter}`);
 	console.log("Language Request\n");
 
@@ -40,7 +40,7 @@ app.get("/question", (req, res) => {
 	result.stdout.on("data", (data) => {
 		questionReqCounter += 1;
 		console.log(`Request counts: ${questionReqCounter}`);
-		console.log("requset finished\n");
+		console.log("Request finished\n");
 
 		const dataString = data.toString();
 		const resJson = JSON.parse(dataString);

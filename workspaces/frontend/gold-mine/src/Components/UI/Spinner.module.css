@@ -1,6 +1,6 @@
 .spinner {
-	border: 10px solid #f3f3f3;
-	border-top: 10px solid #014b7d;
+	border: 10px solid var(--spinner-border);
+	border-top: 10px solid var(--classic-blue);
 	border-radius: 50%;
 	width: 80px;
 	height: 80px;

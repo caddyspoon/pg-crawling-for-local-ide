@@ -1,9 +1,8 @@
-const API_ROOT = "/api";
+import { API_ERROR_MSG } from "./constants/Constants";
 
-const ERRORS = {
-	COMMUNICATION_ERROR: "Communication Error Occured",
-	QUESTION_NOT_EXIST: "QUESTION NOT EXIST",
-};
+const { COMMUNICATION_ERROR, QUESTION_NOT_EXIST, QUESTION_NOT_EXIST_KOR } =
+	API_ERROR_MSG;
+const API_ROOT = "/api";
 
 const getLanguageType = async () => {
 	const response = await fetch(`${API_ROOT}/langauge-type`);
@@ -12,7 +11,7 @@ const getLanguageType = async () => {
 
 		return languageType;
 	} else {
-		throw new Error(ERRORS.COMMUNICATION_ERROR);
+		throw new Error(COMMUNICATION_ERROR);
 	}
 };
 
@@ -37,8 +36,8 @@ const getQuestionCode = async (reqData) => {
 			const { message } = await response.json();
 			let KorMessage = "";
 
-			if (message === ERRORS.QUESTION_NOT_EXIST) {
-				KorMessage = "그런 문제 없대요!";
+			if (message === QUESTION_NOT_EXIST) {
+				KorMessage = QUESTION_NOT_EXIST_KOR;
 			}
 
 			return {
@@ -47,7 +46,7 @@ const getQuestionCode = async (reqData) => {
 			};
 		}
 
-		throw new Error(ERRORS.COMMUNICATION_ERROR);
+		throw new Error(COMMUNICATION_ERROR);
 	}
 };
 

@@ -1,6 +1,6 @@
 @font-face {
 	font-family: "NanumSquareNeo";
-	src: url(./fonts/NanumSquareNeo.ttf);
+	src: url(./assets/fonts/NanumSquareNeo.ttf);
 }
 
 .App-body {
@@ -14,4 +14,23 @@
 
 * {
 	font-family: "NanumSquareNeo", "Helvetica", "serif";
+}
+
+:root {
+	/* Names */
+	--classic-blue: #014b7d;
+
+	/* Cases */
+	--information: #004add;
+	--dark-shadow: rgba(89, 89, 89, 0.372);
+	--not-selected: #b4b4b4;
+
+	/* Shadows */
+	--common-shadow: 2px 5px 2px rgba(133, 133, 133, 0.656);
+	--upper-shadow: 0px -1px 10px 3px rgba(79, 79, 79, 0.692);
+
+	/* Custom Colors */
+	--footer-black: rgb(36, 36, 36);
+	--tooltip-alert: rgb(255, 187, 187);
+	--spinner-border: #f3f3f3;
 }
