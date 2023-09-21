@@ -1,18 +1,27 @@
 /* Serch Bar */
 .search-bar {
 	position: relative;
-	border-radius: 30px;
-	box-shadow: var(--common-shadow);
+	border: 5px solid var(--classic-blue);
 	margin-inline: auto;
-
-	/* border: 3px solid var(--classic-blue); */
 
 	height: 60px;
 	width: 470px;
+
+	padding: 2px;
+
+	font-weight: bolder;
 }
 
-.search-bar > select {
+.search-select {
 	width: 25%;
+	transition-property: color font-weight;
+	transition-duration: 0.8s;
+}
+
+.search-button {
+	width: 25%;
+	transition-property: color font-weight;
+	transition-duration: 1.2s;
 }
 
 .search-bar > input {
@@ -20,6 +29,6 @@
 	padding: 0 5%;
 }
 
-.search-bar > button {
-	width: 25%;
+.search-bar > *:focus {
+	outline: none;
 }

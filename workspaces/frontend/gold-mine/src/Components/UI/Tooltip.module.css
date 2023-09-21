@@ -14,7 +14,8 @@
 
 	font-size: small;
 
-	background-color: black;
+	background-color: white;
+	border: 5px solid black;
 
 	border-radius: 15px;
 
@@ -22,12 +23,14 @@
 }
 
 .tooltip-content.alert-tooltip {
-	background-color: var(--tooltip-alert);
+	font-weight: bolder;
+	color: rgb(98, 81, 81);
+	border: 5px solid var(--tooltip-alert);
 }
 
 .tooltip-content:after {
 	position: absolute;
-	top: -7px;
+	top: -12px;
 	left: 10%;
 
 	border-top: 0 solid transparent;

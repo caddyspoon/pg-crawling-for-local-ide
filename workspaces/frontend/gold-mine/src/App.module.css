@@ -21,7 +21,9 @@
 	--classic-blue: #014b7d;
 
 	/* Cases */
-	--information: #004add;
+	/* --information: #004add; */
+	--information: #197adb;
+	--alert: rgb(242, 49, 67);
 	--dark-shadow: rgba(89, 89, 89, 0.372);
 	--not-selected: #b4b4b4;
 

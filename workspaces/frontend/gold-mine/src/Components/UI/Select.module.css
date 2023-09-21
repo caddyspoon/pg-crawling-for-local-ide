@@ -1,19 +1,22 @@
-.custom-style {
+.select-box {
 	height: 100%;
+	font-weight: bolder;
 
-	background-color: var(--classic-blue);
-	color: white;
+	color: var(--classic-blue);
 	font-size: 100%;
-	border: none;
-	border-radius: 30px 0 0 30px;
+	border-style: none;
+
 	cursor: pointer;
 
 	text-align: center;
+}
 
-	transition-property: background-color;
-	transition-duration: 0.2s;
+.select-option {
+	color: var(--classic-blue);
+	font-weight: bold;
 }
 
 .notSelected {
-	background-color: var(--not-selected);
+	color: var(--not-selected);
+	font-weight: bold;
 }

@@ -14,10 +14,10 @@ import Swal from "sweetalert2";
 import style from "./SearchBar.module.css";
 
 // FIXME: Hard Coding Text
-const SELECT_INIT_TEXT = "Langauge!";
+const SELECT_INIT_TEXT = "Langauge";
 const INPUT_PLACEHOLDER = "Question Number";
-const CLICK_TEXT = "Search!";
-const TOOLTIP_TEXT = "Please Enter Num!";
+const CLICK_TEXT = "Search";
+const TOOLTIP_TEXT = "Please Enter Num";
 
 const SearchBar = ({ loaderHandler }) => {
 	const [isInit, setIsInit] = useState(true);
@@ -44,7 +44,7 @@ const SearchBar = ({ loaderHandler }) => {
 	}, [isInit, selectOptions]);
 
 	useEffect(() => {
-		if (selectedLanguage && questionNo) {
+		if (selectedLanguage && questionNo && String(questionNo).length >= 5) {
 			setButtonValidation(true);
 		} else {
 			setButtonValidation(false);
@@ -134,6 +134,7 @@ const SearchBar = ({ loaderHandler }) => {
 	return (
 		<div className={`${style["search-bar"]}`}>
 			<Select
+				customClassName={`${style["search-select"]}`}
 				initText={SELECT_INIT_TEXT}
 				selectedValue={selectedLanguage}
 				onChangeHandler={languageChangeHandler}
@@ -151,6 +152,7 @@ const SearchBar = ({ loaderHandler }) => {
 				onKeyDownHandler={inputKeyDownHandler}
 			/>
 			<Button
+				customClassName={`${style["search-button"]}`}
 				onClickHandler={buttonHandler}
 				description={CLICK_TEXT}
 				isValid={buttonValidation}
