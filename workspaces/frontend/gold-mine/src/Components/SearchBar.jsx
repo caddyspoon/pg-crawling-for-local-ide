@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { getLanguageType, getQuestionCode } from "../Apis";
 
 import Select from "./UI/Select";
+import SelectDiv from "./UI/SelectDiv";
 import Input from "./UI/Input";
 import Button from "./UI/Button";
 import Tooltip from "./UI/Tooltip";
@@ -133,7 +134,7 @@ const SearchBar = ({ loaderHandler }) => {
 
 	return (
 		<div className={`${style["search-bar"]}`}>
-			<Select
+			<SelectDiv
 				customClassName={`${style["search-select"]}`}
 				initText={SELECT_INIT_TEXT}
 				selectedValue={selectedLanguage}

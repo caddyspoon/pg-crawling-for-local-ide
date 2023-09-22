@@ -1,11 +1,13 @@
-/* Serch Bar */
 .search-bar {
 	position: relative;
 	border: 5px solid var(--classic-blue);
 	margin-inline: auto;
 
+	display: flex;
+
 	height: 60px;
-	width: 470px;
+	max-width: 470px;
+	/* min-width: 350px; */
 
 	padding: 2px;
 

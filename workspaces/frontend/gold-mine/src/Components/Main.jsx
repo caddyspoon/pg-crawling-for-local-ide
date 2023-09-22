@@ -16,6 +16,7 @@ const Form = () => {
 			<div className={`${style["form-body"]}`}>
 				<Description />
 				<SearchBar loaderHandler={setIsLoading} />
+				<div className={`${style["form-bottom"]}`}></div>
 			</div>
 		</div>
 	);

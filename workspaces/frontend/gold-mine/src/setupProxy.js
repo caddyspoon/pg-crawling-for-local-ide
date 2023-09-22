@@ -1,7 +1,5 @@
-// import { createProxyMiddleware } from "http-proxy-middleware";
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
-// const Proxy = (app) => {
 module.exports = function (app) {
 	app.use(
 		"/api",
@@ -14,5 +12,3 @@ module.exports = function (app) {
 		})
 	);
 };
-
-// export default Proxy;

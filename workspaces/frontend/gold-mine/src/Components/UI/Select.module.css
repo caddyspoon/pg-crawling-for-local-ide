@@ -13,10 +13,10 @@
 
 .select-option {
 	color: var(--classic-blue);
-	font-weight: bold;
+	font-weight: 600;
 }
 
 .notSelected {
 	color: var(--not-selected);
-	font-weight: bold;
+	font-weight: 600;
 }
