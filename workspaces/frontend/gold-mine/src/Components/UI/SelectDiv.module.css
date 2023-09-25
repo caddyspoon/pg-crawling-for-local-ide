@@ -5,30 +5,63 @@
 	padding: 0;
 }
 
+.select-section {
+	width: 100%;
+	height: 100%;
+	display: flex;
+}
+
 .select-button {
 	height: 100%;
 	width: 100%;
+
+	display: flex;
+	align-items: center;
 
 	border: none;
 	outline: none;
 	background-color: white;
 	cursor: pointer;
 
-	color: var(--not-selected);
 	font-weight: 600;
 
 	font-size: 100%;
 	border-style: none;
+
+	user-select: none;
+
+	transition-property: background-color, color;
+	transition-duration: 1.2s;
+}
+
+.button-text {
+	width: 100%;
+	font-weight: 800;
+}
+
+.button-chevron {
+	transition: 0.5s;
+	/* color: var(--classic-blue); */
+}
+
+.down-chevron {
+	transform: rotate(180deg);
+}
+
+.not-selected {
+	color: var(--not-selected);
+}
+
+.selected {
+	color: var(--classic-blue);
 }
 
 .option-list {
-	border: 5px solid white;
-	/* border-right: 5px solid var(--classic-blue); */
+	/* border: 5px solid white; */
 
 	width: 100%;
 
 	position: absolute;
-	/* left: -6px; */
 
 	padding: 0;
 	margin-top: 10px;
@@ -38,12 +71,14 @@
 	overflow: hidden;
 	list-style-type: none;
 
-	/* transition-property: visibility; */
+	transition: 0.3s ease-in-out;
 }
 
 .option {
 	color: var(--classic-blue);
 	padding-block: 10px;
+
+	user-select: none;
 
 	transition-property: color, background-color;
 	transition-duration: 0.1s;
@@ -57,9 +92,11 @@
 }
 
 .show-up {
+	max-height: 80px;
 	visibility: visible;
 }
 
 .good-bye {
+	max-height: 0px;
 	visibility: hidden;
 }

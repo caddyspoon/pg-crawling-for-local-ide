@@ -15,13 +15,13 @@
 }
 
 .search-select {
-	width: 25%;
+	width: 27%;
 	transition-property: color font-weight;
 	transition-duration: 0.8s;
 }
 
 .search-button {
-	width: 25%;
+	width: 23%;
 	transition-property: color font-weight;
 	transition-duration: 1.2s;
 }

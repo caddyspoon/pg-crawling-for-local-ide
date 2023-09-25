@@ -52,10 +52,6 @@ const SearchBar = ({ loaderHandler }) => {
 		}
 	}, [selectedLanguage, questionNo]);
 
-	const languageChangeHandler = (event) => {
-		setSelectedLanguage(event.target.value);
-	};
-
 	const isValidInput = (inputValue) => {
 		const reg = /^[0-9]*$/;
 		return reg.test(inputValue);
@@ -138,7 +134,7 @@ const SearchBar = ({ loaderHandler }) => {
 				customClassName={`${style["search-select"]}`}
 				initText={SELECT_INIT_TEXT}
 				selectedValue={selectedLanguage}
-				onChangeHandler={languageChangeHandler}
+				onChangeHandler={setSelectedLanguage}
 				selectOptions={selectOptions}
 			/>
 			<Tooltip
