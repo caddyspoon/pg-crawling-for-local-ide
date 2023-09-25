@@ -1,21 +1,22 @@
 .custom-button {
-	height: 100%;
+  height: 100%;
 
-	background-color: white;
-	color: var(--classic-blue);
+  background-color: white;
+  color: var(--classic-blue);
 
-	font-size: 100%;
-	border: none;
-	cursor: pointer;
+  font-size: 100%;
+  border: none;
+  cursor: pointer;
 
-	color: var(--classic-blue);
+  color: var(--classic-blue);
 
-	padding-top: 0px;
-	font-weight: bolder;
+  padding-top: 0px;
+  font-weight: bolder;
 }
 
 .custom-button:disabled {
-	color: var(--not-selected);
-	font-weight: bold;
-	cursor: default;
+  background-color: white;
+  color: var(--not-selected);
+  font-weight: bold;
+  cursor: default;
 }
