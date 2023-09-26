@@ -12,6 +12,11 @@
 	width: 100%;
 }
 
+.description-info {
+	color: var(--information);
+	cursor: pointer;
+}
+
 .description-span {
 	cursor: pointer;
 	color: var(--information);
@@ -40,18 +45,51 @@
 .tooltip-wrapper {
 	position: relative;
 	transition: visibility 0.1s, opacity 0.1s linear;
+
+	z-index: 1;
+}
+
+.main-tooltip-content {
+	position: absolute;
+
+	top: 40px;
+	left: -400px;
+
+	width: 480px;
+	height: 280px;
+
+	padding: 10px 8px 2px;
+
+	background-color: black;
+
+	border-radius: 15px;
+
+	box-shadow: var(--common-shadow);
+}
+
+.main-tooltip-content:after {
+	position: absolute;
+	top: -10px;
+	left: 400px;
+
+	border-top: 0px solid transparent;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid black;
+
+	content: "";
 }
 
 .tooltip-content {
 	position: absolute;
 
-	top: -300px;
+	top: 25px;
 	left: -100px;
 
 	width: 480px;
 	height: 280px;
 
-	padding: 0.5px 8px 0 2px;
+	padding: 10px 8px 2px;
 
 	background-color: black;
 
@@ -62,13 +100,13 @@
 
 .tooltip-content:after {
 	position: absolute;
-	top: 280px;
+	top: -10px;
 	left: 35%;
 
-	border-top: 10px solid black;
+	border-top: 0px solid transparent;
 	border-left: 10px solid transparent;
 	border-right: 10px solid transparent;
-	border-bottom: 0px solid transparent;
+	border-bottom: 10px solid black;
 
 	content: "";
 }
