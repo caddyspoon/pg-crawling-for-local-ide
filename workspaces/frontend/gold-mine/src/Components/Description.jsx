@@ -45,10 +45,7 @@ const Description = () => {
 						>
 							<div className={`${style["main-tooltip-content"]}`}>
 								{isMouseOverOnMainInfo && (
-									<img
-										src={testImage}
-										alt="Guide for what is the quetion number"
-									/>
+									<img src={testImage} alt="Guide for what this website does" />
 								)}
 							</div>
 						</span>
