@@ -32,7 +32,8 @@ app.get("/question", (req, res) => {
 	console.log("GET Request | /question");
 
 	const result = spawn("python", [
-		"./crawling/Crawling.py",
+		"./crawling/get_question.py",
+		"N",
 		selectedLanguage,
 		questionNo,
 	]);
@@ -54,6 +55,48 @@ app.get("/question", (req, res) => {
 				console.log(ERRORS.CRAWLING_ERROR);
 
 				return res.status(500).send({ message: ERRORS.CRAWLING_ERROR });
+			}
+		} else if (resJson.status === "success") {
+			const dataResult = {
+				data: resJson.data,
+			};
+
+			res.send(dataResult);
+		}
+	});
+
+	result.stderr.on("error", (error) => {
+		console.error(error.toString());
+	});
+});
+
+app.get("/question-name", (req, res) => {
+	const { questionNo } = req.query;
+
+	console.log("GET Request | /question-name");
+
+	const result = spawn("python", [
+		"./crawling/get_question.py",
+		"Y",
+		"",
+		questionNo,
+	]);
+
+	result.stdout.on("data", (data) => {
+		questionReqCounter += 1;
+		console.log(`Request counts: ${questionReqCounter}`);
+		console.log("Request finished\n");
+
+		const dataString = data.toString();
+		const resJson = JSON.parse(dataString);
+
+		if (resJson.status === "failed") {
+			if (resJson.message === ERRORS.QUESTION_NOT_EXIST) {
+				console.log(ERRORS.QUESTION_NOT_EXIST + "\n");
+
+				return res
+					.status(204)
+					.send({ data: "", message: ERRORS.QUESTION_NOT_EXIST });
 			}
 		} else if (resJson.status === "success") {
 			const dataResult = {

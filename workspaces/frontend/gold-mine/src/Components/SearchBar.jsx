@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 
-import { getLanguageType, getQuestionCode } from "../Apis";
+import { getLanguageType, getQuestionCode, getQuestionName } from "../Apis";
 
-import Select from "./UI/Select";
+// import Select from "./UI/Select";
 import SelectDiv from "./UI/SelectDiv";
 import Input from "./UI/Input";
 import Button from "./UI/Button";
@@ -15,12 +15,36 @@ import Swal from "sweetalert2";
 import style from "./SearchBar.module.css";
 
 // FIXME: Hard Coding Text
-const SELECT_INIT_TEXT = "Langauge";
-const INPUT_PLACEHOLDER = "Question Number";
-const CLICK_TEXT = "Search";
-const TOOLTIP_TEXT = "Please Enter Num";
+const INTERNATIONAL_TEXT = {
+	ENG: {
+		SELECT_INIT_TEXT: "Language",
+		INPUT_PLACEHOLDER: "Question Number",
+		CLICK_TEXT: "Search",
+		TOOLTIP_TEXT: "Please Enter Number",
+	},
+	KOR: {
+		SELECT_INIT_TEXT: "언어",
+		INPUT_PLACEHOLDER: "문제 번호",
+		CLICK_TEXT: "가져오기",
+		TOOLTIP_TEXT: "숫자를 입력해주세요.",
+	},
+};
+// const SELECT_INIT_TEXT = "Langauge";
+// const INPUT_PLACEHOLDER = "Question Number";
+// const CLICK_TEXT = "Search";
+// const TOOLTIP_TEXT = "Please Enter Num";
 
-const SearchBar = ({ loaderHandler }) => {
+const SearchBar = ({
+	loaderHandler,
+	previewInfoHandler,
+	previewLoadingHandler,
+	previewValidationHandler,
+	previewShowupHandler,
+	textLanguage = "ENG",
+}) => {
+	const { SELECT_INIT_TEXT, INPUT_PLACEHOLDER, CLICK_TEXT, TOOLTIP_TEXT } =
+		INTERNATIONAL_TEXT[textLanguage];
+
 	const [isInit, setIsInit] = useState(true);
 	const [selectOptions, setSelectOptions] = useState({});
 	const [buttonValidation, setButtonValidation] = useState(false);
@@ -29,6 +53,7 @@ const SearchBar = ({ loaderHandler }) => {
 	const [questionNo, setQuestionNo] = useState("");
 
 	const [inputTimer, setInputTimer] = useState(0);
+	const [questionInputTimer, setQuestionInputTimer] = useState(0);
 	const [isInputNotValid, setIsInputNotValid] = useState(false);
 
 	useEffect(() => {
@@ -72,11 +97,49 @@ const SearchBar = ({ loaderHandler }) => {
 		setInputTimer(newTimer);
 	};
 
+	const getQuestionNameDebouncing = (enteredValue) => {
+		if (questionInputTimer) {
+			clearTimeout(questionInputTimer);
+		}
+
+		const newQuestionTimer = setTimeout(() => {
+			fetchPreviewQuestionName(enteredValue);
+		}, 1000);
+		setQuestionInputTimer(newQuestionTimer);
+	};
+
+	const fetchPreviewQuestionName = async (enteredValue) => {
+		previewLoadingHandler(true);
+		const nameResult = await getQuestionName(enteredValue);
+		if (nameResult.ok) {
+			if (nameResult.isExisting) {
+				const {
+					data: { title: questionName },
+				} = nameResult;
+				previewValidationHandler("fulfilled");
+				previewInfoHandler(questionName);
+			} else {
+				previewValidationHandler("rejected");
+			}
+		}
+		previewLoadingHandler(false);
+	};
+
 	const questionNoHandler = (event) => {
+		previewValidationHandler("pending");
+		previewInfoHandler("");
+
 		const enteredValue = event.target.value;
 		if (!isValidInput(enteredValue)) {
 			inputValidCounterDebouncing();
 			return;
+		}
+
+		if (enteredValue.length >= 5) {
+			getQuestionNameDebouncing(enteredValue);
+			previewShowupHandler(true);
+		} else {
+			previewShowupHandler(false);
 		}
 
 		if (enteredValue.length > 6) {

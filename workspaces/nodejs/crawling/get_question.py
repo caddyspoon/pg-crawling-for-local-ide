@@ -16,9 +16,12 @@ TAB_STR = ' ' * TAB_SIZE
 
 
 # Crawling by BS4
-def get_soup(language, question_number):
+def get_soup(question_number, language=""):
+    language_param = ""
+    if language:
+        language_param = f'?language={language}'
     # Open HTML by Address
-    URL = f"https://school.programmers.co.kr/learn/courses/30/lessons/{question_number}?language={language}"
+    URL = f"https://school.programmers.co.kr/learn/courses/30/lessons/{question_number}{language_param}"
     html = urlopen(URL)
 
     return bs(html, "html.parser", from_encoding="utf-8")
@@ -159,7 +162,7 @@ def make_complete_below_code_text(raw_solution_code_text, complete_below_code_te
 
 def make_our_world_colourful(language=default_language, question_number=default_question_number):
     try:
-        soup = get_soup(language, question_number)
+        soup = get_soup(question_number, language)
     except:
         error_type = 'QUESTION NOT EXIST'
         throw_error(error_type)
@@ -184,6 +187,25 @@ def make_our_world_colourful(language=default_language, question_number=default_
         throw_error(error_type)
 
 
+def what_colour_is_it(question_number):
+    # TODO: 없는 페이지일 때 어떻게 나오는지 확인할 것
+    try:
+        soup = get_soup(question_number)
+    except:
+        error_type = 'QUESTION NOT EXIST'
+        throw_error(error_type)
+        return
+    question_name = get_question_name(soup)
+
+    result_info = {
+        'status': 'success',
+        'data': {
+            'title': question_name,
+        }}
+    json_res = json.dumps(result_info)
+    print(json_res)
+
+
 def main(selected_language, question_number):
     result_info = make_our_world_colourful(
         selected_language, question_number)
@@ -203,7 +225,11 @@ def throw_error(message):
 
 
 if __name__ == '__main__':
-    selected_language = sys.argv[1]
-    question_number = sys.argv[2]
+    is_name_only = sys.argv[1]
+    selected_language = sys.argv[2]
+    question_number = sys.argv[3]
 
-    main(selected_language, question_number)
+    if is_name_only == 'Y':
+        what_colour_is_it(question_number)
+    elif is_name_only == 'N':
+        main(selected_language, question_number)

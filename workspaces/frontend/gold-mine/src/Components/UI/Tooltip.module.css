@@ -23,8 +23,8 @@
 }
 
 .tooltip-content.alert-tooltip {
-	font-weight: bolder;
-	color: rgb(98, 81, 81);
+	font-weight: 700;
+	color: var(--alert-text);
 	border: 5px solid var(--tooltip-alert);
 }
 
