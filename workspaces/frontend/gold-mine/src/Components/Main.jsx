@@ -14,7 +14,7 @@ const Form = () => {
 	const [isPreviewShowup, setIsPreviewShowup] = useState(false);
 	const [isPreviewLoading, setIsPreviewLoading] = useState(false);
 	const [previewQuestionInfo, setPreviewQuestionInfo] = useState("");
-	const [isValidPreview, setIsValidPreview] = useState("pending");
+	const [isValidPreview, setIsValidPreview] = useState("");
 
 	return (
 		<div className={`${style["form-wrapper"]}`}>

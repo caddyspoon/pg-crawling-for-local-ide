@@ -149,7 +149,7 @@ const SearchBar = ({
 		setQuestionNo(enteredValue);
 	};
 
-	const fetchquestion = async () => {
+	const fetchQuestion = async () => {
 		const reqData = {
 			selectedLanguage,
 			questionNo,
@@ -182,7 +182,7 @@ const SearchBar = ({
 
 		loaderHandler(true);
 
-		fetchquestion();
+		fetchQuestion();
 	};
 
 	const inputKeyDownHandler = (event) => {
@@ -192,7 +192,7 @@ const SearchBar = ({
 	};
 
 	return (
-		<div className={`${style["search-bar"]}`}>
+		<div className={`${style["search-bar"]} search-bar-global-width`}>
 			<SelectDiv
 				customClassName={`${style["search-select"]}`}
 				initText={SELECT_INIT_TEXT}

@@ -11,3 +11,8 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 		monospace;
 }
+
+.search-bar-global-width {
+	max-width: 470px;
+	margin-inline: auto;
+}
