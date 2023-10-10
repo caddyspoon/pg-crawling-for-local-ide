@@ -14,7 +14,7 @@ const Form = () => {
 	const [isPreviewShowup, setIsPreviewShowup] = useState(false);
 	const [isPreviewLoading, setIsPreviewLoading] = useState(false);
 	const [previewQuestionInfo, setPreviewQuestionInfo] = useState("");
-	const [isValidPreview, setIsValidPreview] = useState("");
+	const [previewStatus, setPreviewStatus] = useState("");
 
 	return (
 		<div className={`${style["form-wrapper"]}`}>
@@ -25,7 +25,7 @@ const Form = () => {
 					loaderHandler={setIsLoading}
 					previewInfoHandler={setPreviewQuestionInfo}
 					previewLoadingHandler={setIsPreviewLoading}
-					previewValidationHandler={setIsValidPreview}
+					previewValidationHandler={setPreviewStatus}
 					previewShowupHandler={setIsPreviewShowup}
 					textLanguage={"KOR"}
 				/>
@@ -33,7 +33,7 @@ const Form = () => {
 					isPreviewShowup={isPreviewShowup}
 					questionInfo={previewQuestionInfo}
 					isPreviewInfoLoading={isPreviewLoading}
-					isValidPreview={isValidPreview}
+					previewStatus={previewStatus}
 				/>
 				<div className={`${style["form-bottom"]}`}></div>
 			</div>
