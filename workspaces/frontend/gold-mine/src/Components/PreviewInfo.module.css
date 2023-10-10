@@ -70,6 +70,7 @@
 
 .fade-out {
 	animation: fade-out-frames 0.5s ease;
+	animation-fill-mode: forwards;
 }
 
 @keyframes fade-out-frames {

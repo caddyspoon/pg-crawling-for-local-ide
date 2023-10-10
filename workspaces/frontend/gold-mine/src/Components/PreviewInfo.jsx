@@ -13,6 +13,14 @@ const PreviewInfo = ({
 }) => {
 	let innerContent = <></>;
 
+	const [isLoaded, setIsLoaded] = useState(false);
+
+	useEffect(() => {
+		if (isPreviewInfoLoading) {
+			setIsLoaded(true);
+		}
+	}, [isPreviewInfoLoading]);
+
 	// const [shouldRender, setRender] = useState(true);
 	// const [sholudFadeOut, setFadeOut] = useState(false);
 	// const [isFadeInDone, setFadeInDone] = useState(false);
@@ -55,7 +63,7 @@ const PreviewInfo = ({
 					/>
 				</div>
 			);
-		} else if (!questionInfo) {
+		} else if (!questionInfo && isLoaded) {
 			innerContent = shouldRender && (
 				<h3
 					className={`${show ? style["fade-in"] : style["fade-out"]} ${
@@ -63,10 +71,10 @@ const PreviewInfo = ({
 					}`}
 					onAnimationEnd={fadeOutHandler}
 				>
-					"존재 하지 않는 문제입니다."
+					존재 하지 않는 문제입니다.
 				</h3>
 			);
-		} else if (questionInfo) {
+		} else if (questionInfo && isLoaded) {
 			innerContent = (
 				<h3
 					className={`${style["fade-in"]} ${style["in-stock"]}`}
