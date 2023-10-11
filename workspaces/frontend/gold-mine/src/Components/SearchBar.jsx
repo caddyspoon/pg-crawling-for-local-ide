@@ -37,8 +37,7 @@ const INTERNATIONAL_TEXT = {
 const SearchBar = ({
 	loaderHandler,
 	previewInfoHandler,
-	previewLoadingHandler,
-	previewValidationHandler,
+	previewStatusHandler,
 	previewShowupHandler,
 	textLanguage = "ENG",
 }) => {
@@ -51,6 +50,7 @@ const SearchBar = ({
 
 	const [selectedLanguage, setSelectedLanguage] = useState("");
 	const [questionNo, setQuestionNo] = useState("");
+	const [isValidQuestion, setIsValidQuestion] = useState(true);
 
 	const [inputTimer, setInputTimer] = useState(0);
 	const [questionInputTimer, setQuestionInputTimer] = useState(0);
@@ -69,13 +69,14 @@ const SearchBar = ({
 		}
 	}, [isInit, selectOptions]);
 
+	// API를 기다리지 않고 바로 가져오기를 가져올 수 있게 일부러 두 가지의 버튼 유효성을 둔다.
 	useEffect(() => {
-		if (selectedLanguage && questionNo && String(questionNo).length >= 5) {
+		if (selectedLanguage && String(questionNo).length >= 5 && isValidQuestion) {
 			setButtonValidation(true);
 		} else {
 			setButtonValidation(false);
 		}
-	}, [selectedLanguage, questionNo]);
+	}, [selectedLanguage, questionNo, isValidQuestion]);
 
 	const isValidInput = (inputValue) => {
 		const reg = /^[0-9]*$/;
@@ -109,41 +110,46 @@ const SearchBar = ({
 	};
 
 	const fetchPreviewQuestionName = async (enteredValue) => {
-		previewLoadingHandler(true);
+		previewStatusHandler("pending");
 		const nameResult = await getQuestionName(enteredValue);
 		if (nameResult.ok) {
 			if (nameResult.isExisting) {
 				const {
 					data: { title: questionName },
 				} = nameResult;
-				previewValidationHandler("fulfilled");
+				previewStatusHandler("fulfilled");
 				previewInfoHandler(questionName);
+
+				setIsValidQuestion(true);
 			} else {
-				previewValidationHandler("rejected");
+				previewStatusHandler("rejected");
+
+				setIsValidQuestion(false);
 			}
 		}
-		previewLoadingHandler(false);
 	};
 
 	const questionNoHandler = (event) => {
-		previewValidationHandler("pending");
-		previewInfoHandler("");
-
 		const enteredValue = event.target.value;
+
 		if (!isValidInput(enteredValue)) {
 			inputValidCounterDebouncing();
 			return;
 		}
+
+		if (enteredValue.length > 6) {
+			return;
+		}
+
+		setIsValidQuestion(true);
+		previewStatusHandler("");
+		previewInfoHandler("");
 
 		if (enteredValue.length >= 5) {
 			getQuestionNameDebouncing(enteredValue);
 			previewShowupHandler(true);
 		} else {
 			previewShowupHandler(false);
-		}
-
-		if (enteredValue.length > 6) {
-			return;
 		}
 
 		setQuestionNo(enteredValue);
@@ -181,7 +187,6 @@ const SearchBar = ({
 		}
 
 		loaderHandler(true);
-
 		fetchQuestion();
 	};
 

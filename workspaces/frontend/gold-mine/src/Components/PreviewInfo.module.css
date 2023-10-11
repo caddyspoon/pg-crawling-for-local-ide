@@ -20,13 +20,6 @@
 	transition: 0.5s ease-in-out;
 }
 
-.wrapper-colour-transition {
-	animation-delay: 1s;
-	transition-delay: 2s;
-	transition-property: color;
-	transition-duration: 0.3s;
-}
-
 .show-up {
 	max-height: 60px;
 	visibility: visible;
@@ -34,7 +27,7 @@
 }
 
 .good-bye {
-	/* transition-delay: 0.5s; */
+	transition-delay: 0.3s;
 	max-height: 0px;
 	visibility: hidden;
 }
@@ -48,44 +41,37 @@
 }
 
 .fade-in {
-	animation: fade-in-frames 0.5s ease;
+	animation: fade-in-frames 0.3s both;
+}
+
+.fade-in h3 {
+	animation: fade-in-frames 0.3s both;
 }
 
 @keyframes fade-in-frames {
-	0% {
-		display: none;
+	from {
 		opacity: 0;
 	}
 
-	1% {
-		display: block;
-		opacity: 0;
-	}
-
-	100% {
-		display: block;
+	to {
 		opacity: 1;
 	}
 }
 
 .fade-out {
-	animation: fade-out-frames 0.5s ease;
-	animation-fill-mode: forwards;
+	animation: fade-out-frames 0.3s forwards;
+}
+
+.fade-out h3 {
+	animation: fade-out-frames 0.3s forwards;
 }
 
 @keyframes fade-out-frames {
-	0% {
-		display: block;
+	from {
 		opacity: 1;
 	}
 
-	99% {
-		display: block;
-		opacity: 0;
-	}
-
-	100% {
-		display: none;
+	to {
 		opacity: 0;
 	}
 }

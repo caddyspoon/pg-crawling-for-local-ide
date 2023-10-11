@@ -1,6 +1,7 @@
 .tooltip-wrapper {
 	position: relative;
 	transition: visibility 0.1s, opacity 0.1s linear;
+	z-index: 1;
 }
 
 .tooltip-content {

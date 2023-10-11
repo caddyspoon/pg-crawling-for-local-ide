@@ -12,7 +12,6 @@ const Form = () => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const [isPreviewShowup, setIsPreviewShowup] = useState(false);
-	const [isPreviewLoading, setIsPreviewLoading] = useState(false);
 	const [previewQuestionInfo, setPreviewQuestionInfo] = useState("");
 	const [previewStatus, setPreviewStatus] = useState("");
 
@@ -24,15 +23,13 @@ const Form = () => {
 				<SearchBar
 					loaderHandler={setIsLoading}
 					previewInfoHandler={setPreviewQuestionInfo}
-					previewLoadingHandler={setIsPreviewLoading}
-					previewValidationHandler={setPreviewStatus}
+					previewStatusHandler={setPreviewStatus}
 					previewShowupHandler={setIsPreviewShowup}
 					textLanguage={"KOR"}
 				/>
 				<PreviewInfo
 					isPreviewShowup={isPreviewShowup}
 					questionInfo={previewQuestionInfo}
-					isPreviewInfoLoading={isPreviewLoading}
 					previewStatus={previewStatus}
 				/>
 				<div className={`${style["form-bottom"]}`}></div>
