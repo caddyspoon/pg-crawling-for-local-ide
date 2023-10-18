@@ -48,6 +48,9 @@ node workspaces/nodejs/app.js
 ```
 
 
+---
+
+
 
 ### 2. 프론트엔드 서버 빌드
 
@@ -59,7 +62,7 @@ cd workspaces/frontend/gold-mine
 
 
 
-### 0. (첫 실행시에만) 의존성 설치
+#### 0. (첫 실행시에만) 의존성 설치
 
 ```bash
 npm i
