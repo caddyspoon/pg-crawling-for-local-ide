@@ -124,7 +124,7 @@ def make_string_loop_and_test_case_by_language_type(string_test_case_arr, joined
         string_test_case_joined = '\n\n'.join(
             [string_test_case_joined, f'{TAB_STR}your_result = solution({joined_param_text})', ])
         string_test_case_joined = '\n'.join(
-            [string_test_case_joined, f'{TAB_STR}verdict(case_no, your_result, result)'])
+            [string_test_case_joined, f'{TAB_STR}verdict(case_no, result, your_result)'])
 
         return f'for case_no, test_case in enumerate(test_cases):{string_test_case_joined}'
 
@@ -141,7 +141,7 @@ def make_string_loop_and_test_case_by_language_type(string_test_case_arr, joined
         string_test_case_joined = '\n\n'.join(
             [string_test_case_joined, f'{TAB_STR}const yourResult = solution({joined_param_text});', ])
         string_test_case_joined = '\n'.join(
-            [string_test_case_joined, f'{TAB_STR}verdict(caseNo, yourResult, result);\n}}'])
+            [string_test_case_joined, f'{TAB_STR}verdict(caseNo, result, yourResult);\n}}'])
 
         return f'testCases.forEach((testCase, caseNo) => {{{TAB_STR}{string_test_case_joined});'
 
