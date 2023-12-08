@@ -1,16 +1,28 @@
 .footer-wrapper {
-	position: absolute;
-	bottom: 0;
+  position: absolute;
+  bottom: 0;
 
-	width: 100%;
+  width: 100%;
 
-	background-color: var(--footer-black);
-	color: white;
+  background-color: var(--footer-black);
+  color: white;
 
-	box-shadow: var(--upper-shadow);
+  box-shadow: var(--upper-shadow);
 }
 
 .footer-wrapper > p {
-	padding-inline: 20px;
-	text-align: start;
+  padding-inline: 20px;
+  text-align: center;
+}
+
+.footer-wrapper a {
+  text-decoration: none;
+  color: var(--information);
+
+  transition: 0.3s;
+  transform: color;
+}
+
+.footer-wrapper a:hover {
+  color: #8bb8e8;
 }
