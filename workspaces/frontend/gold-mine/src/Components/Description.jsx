@@ -8,6 +8,7 @@ import {
 
 import style from "./Description.module.css";
 import descriptionImg from "../assets/media/description01.gif";
+import mainDescriptionImg from "../assets/media/main-description01.gif";
 import solidBlack from "../assets/media/solid-black.png";
 
 const Description = () => {
@@ -27,6 +28,20 @@ const Description = () => {
   const turnOffTooltipMainInfo = () => {
     setIsMouseOverOnMainInfo(false);
   };
+
+  let mainDescriptionGif = "";
+  if (isMouseOverOnMainInfo) {
+    mainDescriptionGif = (
+      <img
+        src={mainDescriptionImg}
+        alt="Guide for what is the quetion number"
+      />
+    );
+  } else {
+    mainDescriptionGif = (
+      <img src={solidBlack} alt="temp blank which is not shown" />
+    );
+  }
 
   let descriptionGif = "";
   if (isMouseOverOnGuide) {
@@ -111,12 +126,7 @@ const Description = () => {
               }`}
             >
               <div className={`${style["main-tooltip-content"]}`}>
-                {isMouseOverOnMainInfo && (
-                  <img
-                    src={solidBlack}
-                    alt="Guide for what this website does"
-                  />
-                )}
+                {mainDescriptionGif}
               </div>
             </span>
             <FontAwesomeIcon icon={faCircleInfo} />
