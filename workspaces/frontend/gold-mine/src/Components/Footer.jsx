@@ -1,8 +1,6 @@
 import style from "./Footer.module.css";
 
 const Footer = () => {
-  const anchorHandler = () => {};
-
   return (
     <div className={`${style["footer-wrapper"]}`}>
       {/* <p>
