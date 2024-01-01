@@ -14,6 +14,11 @@ import Swal from "sweetalert2";
 
 import style from "./SearchBar.module.css";
 
+const LANGUAGE_TYPE = {
+  python3: "Python3",
+  javascript: "JavaScript",
+};
+
 const INTERNATIONAL_TEXT = {
   ENG: {
     SELECT_INIT_TEXT: "Language",
@@ -55,7 +60,8 @@ const SearchBar = ({
     if (isInit) {
       const fetchLanguageType = async () => {
         // TODO: CONSIDER USING CACHE LANGUAGE TYPE
-        const languageType = await getLanguageType();
+        // const languageType = await getLanguageType();
+        const languageType = LANGUAGE_TYPE;
         setSelectOptions(languageType);
         setIsInit(false);
       };

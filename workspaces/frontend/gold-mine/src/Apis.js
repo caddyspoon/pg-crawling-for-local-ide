@@ -2,13 +2,14 @@ import { API_ERROR_MSG } from "./constants/Constants";
 
 const { COMMUNICATION_ERROR, QUESTION_NOT_EXIST, QUESTION_NOT_EXIST_KOR } =
   API_ERROR_MSG;
-const API_ROOT = "/api";
+const API_ROOT = process.env.REACT_APP_SERVER;
 
 export const getLanguageType = async () => {
   try {
     const response = await fetch(`${API_ROOT}/langauge-type`);
     if (response.ok) {
       const languageType = await response.json();
+      console.log("langaugeType", languageType);
 
       return languageType;
     } else {
