@@ -84,7 +84,7 @@
   position: absolute;
 
   top: 25px;
-  left: -100px;
+  left: -370px;
 
   /* width: 480px; */
   height: 360px;
@@ -101,7 +101,7 @@
 .tooltip-content:after {
   position: absolute;
   top: -10px;
-  left: 35%;
+  right: 10%;
 
   border-top: 0px solid transparent;
   border-left: 10px solid transparent;

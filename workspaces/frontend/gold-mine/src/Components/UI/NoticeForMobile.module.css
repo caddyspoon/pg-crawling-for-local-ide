@@ -1,0 +1,39 @@
+.mobile-notice-wrapper {
+  height: 100vh;
+  width: 100vw;
+
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+
+  display: flex;
+}
+
+.mobile-notice-main {
+  width: 100%;
+
+  margin-block: auto;
+  text-align: center;
+}
+
+.caution-exclamation-mark {
+  font-size: 3rem;
+
+  margin: 0 auto;
+  width: 70px;
+  height: 70px;
+  border: 7px solid var(--tooltip-alert);
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+}
+
+.caution-exclamation-mark p {
+  margin-block: 0;
+  margin-inline: auto;
+}
+
+.service-name {
+  font-style: italic;
+  font-size: 1rem;
+}

@@ -11,12 +11,12 @@
   color: var(--classic-blue);
 
   padding-top: 0px;
-  font-weight: bolder;
+  font-weight: 500;
 }
 
 .custom-button:disabled {
   background-color: white;
   color: var(--not-selected);
-  font-weight: bold;
+  font-weight: 500;
   cursor: default;
 }

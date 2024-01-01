@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCircleInfo, // 인포메이션 아이콘
+  faCircleInfo,
   faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -56,53 +56,6 @@ const Description = () => {
   return (
     <div className={`${style["description-wrapper"]}`}>
       <div className={`${style["description-content"]}`}>
-        {/* <h2 className={`${style["title-description"]}`}>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit.{" "}
-          <span
-            className={`${style["description-info"]}`}
-            onMouseOver={showTooltipMainInfo}
-            onMouseOut={turnOffTooltipMainInfo}
-          >
-            {" "}
-            <span
-              className={`${style["tooltip-wrapper"]} ${
-                isMouseOverOnMainInfo ? style["show-up"] : style["go-home"]
-              }`}
-            >
-              <div className={`${style["main-tooltip-content"]}`}>
-                {isMouseOverOnMainInfo && (
-                  <img
-                    src={solidBlack}
-                    alt="Guide for what this website does"
-                  />
-                )}
-              </div>
-            </span>
-            <FontAwesomeIcon icon={faCircleInfo} />
-          </span>
-        </h2> */}
-
-        {/* <h3 className={`${style["brief-description"]}`}>
-          Please enter
-          <span
-            className={`${style["description-span"]}`}
-            onMouseOver={showTooltipGuide}
-            onMouseOut={turnOffTooltipGuide}
-          >
-            {" "}
-            <span
-              className={`${style["tooltip-wrapper"]} ${
-                isMouseOverOnGuide ? style["show-up"] : style["go-home"]
-              }`}
-            >
-              <div className={`${style["tooltip-content"]}`}>
-                {descriptionGif}
-              </div>
-            </span>
-            <FontAwesomeIcon icon={faQuestionCircle} /> the question number{" "}
-          </span>
-          to the input box below.
-        </h3>*/}
         <h2 className={`${style["title-description"]}`}>
           <span>
             <a

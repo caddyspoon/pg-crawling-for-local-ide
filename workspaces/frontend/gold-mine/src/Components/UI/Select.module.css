@@ -1,22 +1,22 @@
 .select-box {
-	height: 100%;
-	font-weight: bolder;
+  height: 100%;
+  font-weight: bolder;
 
-	color: var(--classic-blue);
-	font-size: 100%;
-	border-style: none;
+  color: var(--classic-blue);
+  font-size: 100%;
+  border-style: none;
 
-	cursor: pointer;
+  cursor: pointer;
 
-	text-align: center;
+  text-align: center;
 }
 
 .select-option {
-	color: var(--classic-blue);
-	font-weight: 600;
+  color: var(--classic-blue);
+  font-weight: 600;
 }
 
 .notSelected {
-	color: var(--not-selected);
-	font-weight: 600;
+  color: var(--not-selected);
+  font-weight: 600;
 }

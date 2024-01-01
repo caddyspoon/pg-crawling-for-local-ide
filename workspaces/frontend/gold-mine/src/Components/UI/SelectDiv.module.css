@@ -1,62 +1,62 @@
 .select-wrapper {
-	position: relative;
+  position: relative;
 
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .select-section {
-	width: 100%;
-	height: 100%;
-	display: flex;
+  width: 100%;
+  height: 100%;
+  display: flex;
 }
 
 .select-button {
-	height: 100%;
-	width: 100%;
+  height: 100%;
+  width: 100%;
 
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 
-	border: none;
-	outline: none;
-	background-color: white;
-	cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: white;
+  cursor: pointer;
 
-	font-weight: 600;
+  font-weight: 600;
 
-	font-size: 100%;
-	border-style: none;
+  font-size: 100%;
+  border-style: none;
 
-	user-select: none;
+  user-select: none;
 
-	transition-property: background-color, color;
-	transition-duration: 1.2s;
+  transition-property: background-color, color;
+  transition-duration: 1.2s;
 }
 
 .button-text {
-	width: 100%;
-	font-weight: 800;
+  width: 100%;
+  font-weight: 500;
 }
 
 .button-chevron {
-	/* color: var(--classic-blue); */
-	transform: rotate(360deg);
-	transition: transform 0.3s;
+  /* color: var(--classic-blue); */
+  transform: rotate(360deg);
+  transition: transform 0.3s;
 }
 
 .active-rotation {
-	animation: activate-rotate 0.3s;
-	transform: rotate(180deg);
+  animation: activate-rotate 0.3s;
+  transform: rotate(180deg);
 }
 
 @keyframes activate-rotate {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(180deg);
-	}
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(180deg);
+  }
 }
 
 /* .init-chevron {
@@ -74,54 +74,52 @@
 } */
 
 .not-selected {
-	color: var(--not-selected);
+  color: var(--not-selected);
 }
 
 .selected {
-	color: var(--classic-blue);
+  color: var(--classic-blue);
 }
 
 .option-list {
-	/* border: 5px solid white; */
+  width: 100%;
 
-	width: 100%;
+  position: absolute;
 
-	position: absolute;
+  padding: 0;
+  margin-top: 10px;
 
-	padding: 0;
-	margin-top: 10px;
+  background-color: white;
 
-	background-color: white;
+  overflow: hidden;
+  list-style-type: none;
 
-	overflow: hidden;
-	list-style-type: none;
-
-	transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
 }
 
 .option {
-	color: var(--classic-blue);
-	padding-block: 10px;
+  color: var(--classic-blue);
+  padding-block: 10px;
 
-	user-select: none;
+  user-select: none;
 
-	transition-property: color, background-color;
-	transition-duration: 0.1s;
+  transition-property: color, background-color;
+  transition-duration: 0.1s;
 }
 
 .option:hover {
-	color: white;
-	background-color: var(--classic-blue);
+  color: white;
+  background-color: var(--classic-blue);
 
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .show-up {
-	max-height: 80px;
-	visibility: visible;
+  max-height: 80px;
+  visibility: visible;
 }
 
 .good-bye {
-	max-height: 0px;
-	visibility: hidden;
+  max-height: 0px;
+  visibility: hidden;
 }

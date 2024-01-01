@@ -14,7 +14,6 @@ import Swal from "sweetalert2";
 
 import style from "./SearchBar.module.css";
 
-// FIXME: Hard Coding Text
 const INTERNATIONAL_TEXT = {
   ENG: {
     SELECT_INIT_TEXT: "Language",
@@ -29,10 +28,6 @@ const INTERNATIONAL_TEXT = {
     TOOLTIP_TEXT: "숫자를 입력해주세요.",
   },
 };
-// const SELECT_INIT_TEXT = "Langauge";
-// const INPUT_PLACEHOLDER = "Question Number";
-// const CLICK_TEXT = "Search";
-// const TOOLTIP_TEXT = "Please Enter Num";
 
 const SearchBar = ({
   loaderHandler,
@@ -59,7 +54,7 @@ const SearchBar = ({
   useEffect(() => {
     if (isInit) {
       const fetchLanguageType = async () => {
-        // TODO: USE CACHE LANGUAGE TYPE
+        // TODO: CONSIDER USING CACHE LANGUAGE TYPE
         const languageType = await getLanguageType();
         setSelectOptions(languageType);
         setIsInit(false);
