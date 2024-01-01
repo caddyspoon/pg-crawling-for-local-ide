@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { getLanguageType, getQuestionCode, getQuestionName } from "../Apis";
+import { getQuestionCode, getQuestionName } from "../Apis";
 
 // import Select from "./UI/Select";
 import SelectDiv from "./UI/SelectDiv";
