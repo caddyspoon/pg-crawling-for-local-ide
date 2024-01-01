@@ -53,10 +53,10 @@
   position: absolute;
 
   top: 40px;
-  left: -800px;
+  left: -720px;
 
-  width: 850px;
-  height: 480px;
+  width: 740px;
+  height: 420px;
 
   padding: 10px 8px 10px;
 
@@ -70,7 +70,7 @@
 .main-tooltip-content:after {
   position: absolute;
   top: -10px;
-  left: 802px;
+  left: 723px;
 
   border-top: 0px solid transparent;
   border-left: 10px solid transparent;
