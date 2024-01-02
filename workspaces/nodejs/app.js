@@ -26,14 +26,24 @@ app.get("/langauge-type", (req, res) => {
 });
 
 let questionReqCounter = 0;
-app.get("/question", (req, res) => {
-	const { selectedLanguage, questionNo } = req.query;
+app.get("/question/:questionNo", (req, res) => {
+	const questionNo = req.params.questionNo;
+
+	let selectedLanguage = "";
+	let isNameOnly = "";
+
+	if (req.query.isNameOnly) {
+		isNameOnly = "Y";
+	} else {
+		isNameOnly = "N";
+		selectedLanguage = req.query.selectedLanguage;
+	}
 
 	console.log("GET Request | /question");
 
 	const result = spawn("python", [
 		"./crawling/get_question.py",
-		"N",
+		isNameOnly,
 		selectedLanguage,
 		questionNo,
 	]);
@@ -70,6 +80,7 @@ app.get("/question", (req, res) => {
 	});
 });
 
+// FIXME: I'm not used anymore!
 app.get("/question-name", (req, res) => {
 	const { questionNo } = req.query;
 
