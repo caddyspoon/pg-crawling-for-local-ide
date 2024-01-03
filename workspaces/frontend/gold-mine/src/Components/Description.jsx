@@ -15,9 +15,6 @@ const Description = () => {
 	const [isMouseOverOnMainInfo, setIsMouseOverOnMainInfo] = useState(false);
 	const [isMouseOverOnGuide, setIsMouseOverOnGuide] = useState(false);
 
-	const [crntMainDescImg, setCrntMainDescImg] = useState(null);
-	const [crntSubDescImg, setCrntSubDescImg] = useState(null);
-
 	const showTooltipGuide = () => {
 		setIsMouseOverOnGuide(true);
 	};
@@ -36,29 +33,32 @@ const Description = () => {
 		<img src={solidBlack} alt="temp blank which is not shown" />
 	);
 
-	useLayoutEffect(() => {
+	const hoverImgPreload = () => {
 		const mainDescImg = new Image();
 		mainDescImg.src = mainDescriptionImg;
-		mainDescImg.alt = "Guide for how to use Bartleby.";
 
 		const subDescImg = new Image();
-		subDescImg.src = descriptionImg;
-		subDescImg.alt = "Guide for what is the quetion number";
+		subDescImg.src = subDescImg;
+	};
 
-		setCrntMainDescImg(mainDescImg);
-		setCrntSubDescImg(subDescImg);
+	useLayoutEffect(() => {
+		hoverImgPreload();
 	}, []);
 
-	let mainDescriptionGif = null;
+	let mainDescriptionGif = <></>;
 	if (isMouseOverOnMainInfo) {
-		mainDescriptionGif = crntMainDescImg;
+		mainDescriptionGif = (
+			<img src={mainDescriptionImg} alt="Guide for how to use Bartleby." />
+		);
 	} else {
 		mainDescriptionGif = blackSolidImage;
 	}
 
-	let descriptionGif = null;
+	let descriptionGif = <></>;
 	if (isMouseOverOnGuide) {
-		descriptionGif = crntSubDescImg;
+		descriptionGif = (
+			<img src={descriptionImg} alt="Guide for what is the question number." />
+		);
 	} else {
 		descriptionGif = blackSolidImage;
 	}
