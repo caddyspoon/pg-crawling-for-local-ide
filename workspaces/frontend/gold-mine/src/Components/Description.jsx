@@ -32,31 +32,35 @@ const Description = () => {
 		setIsMouseOverOnMainInfo(false);
 	};
 
+	const blackSolidImage = (
+		<img src={solidBlack} alt="temp blank which is not shown" />
+	);
+
 	useLayoutEffect(() => {
-		setCrntMainDescImg(mainDescriptionImg);
-		setCrntSubDescImg(descriptionImg);
+		const mainDescImg = new Image();
+		mainDescImg.src = mainDescriptionImg;
+		mainDescImg.alt = "Guide for how to use Bartleby.";
+
+		const subDescImg = new Image();
+		subDescImg.src = descriptionImg;
+		subDescImg.alt = "Guide for what is the quetion number";
+
+		setCrntMainDescImg(mainDescImg);
+		setCrntSubDescImg(subDescImg);
 	}, []);
 
-	let mainDescriptionGif = "";
+	let mainDescriptionGif = null;
 	if (isMouseOverOnMainInfo) {
-		mainDescriptionGif = (
-			<img src={crntMainDescImg} alt="Guide for what is the quetion number" />
-		);
+		mainDescriptionGif = crntMainDescImg;
 	} else {
-		mainDescriptionGif = (
-			<img src={solidBlack} alt="temp blank which is not shown" />
-		);
+		mainDescriptionGif = blackSolidImage;
 	}
 
-	let descriptionGif = "";
+	let descriptionGif = null;
 	if (isMouseOverOnGuide) {
-		descriptionGif = (
-			<img src={crntSubDescImg} alt="Guide for what is the quetion number" />
-		);
+		descriptionGif = crntSubDescImg;
 	} else {
-		descriptionGif = (
-			<img src={solidBlack} alt="temp blank which is not shown" />
-		);
+		descriptionGif = blackSolidImage;
 	}
 	return (
 		<div className={`${style["description-wrapper"]}`}>
