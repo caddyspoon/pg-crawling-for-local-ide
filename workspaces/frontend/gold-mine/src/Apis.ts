@@ -3,6 +3,7 @@ import { API_ERROR_MSG } from "./constants/Constants";
 const {
   BASIC_ERROR_KOR,
   QUESTION_NOT_EXIST_KOR,
+  NOT_AVAILABLE_LAN,
   ERROR_400_KOR,
   ERROR_500_KOR,
 } = API_ERROR_MSG;
@@ -51,6 +52,18 @@ const fetchGetRequest = async (requestURL: string) => {
         };
       }
     } else {
+      // TODO: 에러처리 더 우아하게
+      const errorBody = await response.json();
+
+      if (errorBody.message) {
+        if (errorBody.message === "LANGUAGE NOT AVAILABLE") {
+          return {
+            isSuccess: false,
+            error: NOT_AVAILABLE_LAN,
+          };
+        }
+      }
+
       let KorMessage = BASIC_ERROR_KOR;
       if (response.status === 400) {
         KorMessage = ERROR_400_KOR;

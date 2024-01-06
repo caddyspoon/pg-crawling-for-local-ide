@@ -25,6 +25,10 @@ const getInnerComponent = (
     </h3>
   );
 
+  const ErrorMessageBox = (
+    <h3 className={`${style["out-of-stock"]}`}>{questionInfo}</h3>
+  );
+
   const ValidQuestionInfo = (
     <h3 className={`${style["in-stock"]}`}>{questionInfo}</h3>
   );
@@ -39,6 +43,10 @@ const getInnerComponent = (
 
   if (type === "Loader") {
     return Loader;
+  }
+
+  if (type === "ErrorOccured") {
+    return ErrorMessageBox;
   }
 
   return <></>;
@@ -71,6 +79,8 @@ const PreviewInfo = ({
           setCurrentContent(getInnerComponent("Loader"));
         } else if (previewStatus === "fulfilled") {
           setCurrentContent(getInnerComponent("ValidQuestion", questionInfo));
+        } else if (previewStatus === "errorOccured") {
+          setCurrentContent(getInnerComponent("ErrorOccured", questionInfo));
         } else if (previewStatus === "rejected") {
           setCurrentContent(getInnerComponent("NoQuestion"));
         } else {

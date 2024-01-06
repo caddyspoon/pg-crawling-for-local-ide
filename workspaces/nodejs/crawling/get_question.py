@@ -14,6 +14,10 @@ default_language = 'javascript'
 TAB_SIZE = 4
 TAB_STR = ' ' * TAB_SIZE
 
+LANGUAGE_TYPE = {
+    'python3': 'Python3',
+    'javascript': 'JavaScript'
+}
 
 # Crawling by BS4
 def get_soup(question_number, language=""):
@@ -33,11 +37,11 @@ def get_question_name(soup):
 
 def make_test_case_string(soup, language):
     # Step 1. Get Test Cases
-    qdiv = soup.find('div', {'id': 'tour2'}).find(
-        'div').find('div').find('table')
+    qdiv = soup.find('div', {'id': 'tour2'}).find('div').find('div').find_all('table')
+    target_qdiv = qdiv[-1]
 
     # Step 1-1. Get Test Case Params' Names
-    q_params = qdiv.find('thead').find_all('th')
+    q_params = target_qdiv.find('thead').find_all('th')
 
     param_arr = []
     for param in q_params:
@@ -45,7 +49,7 @@ def make_test_case_string(soup, language):
     joined_param_text = ', '.join(param_arr[:-1])
 
     # Step 1-2. Get Test Cases
-    q_test_cases = qdiv.find('tbody').find_all('tr')
+    q_test_cases = target_qdiv.find('tbody').find_all('tr')
 
     test_case_arr = []
     for test_case in q_test_cases:
@@ -93,8 +97,11 @@ def combine_test_case_code(test_case_info, string_function_verdict, language):
 
     string_test_case_arr = []
     for idx in range(len(param_arr)):
-        param = param_arr[idx]
-        string_test_case_arr.append(param)
+        if idx == len(param_arr) - 1:
+            string_test_case_arr.append("result")
+        else:
+            param = param_arr[idx]
+            string_test_case_arr.append(param)
 
     # Set test cases to string by language type that user selected
     string_loop_and_test_case = make_string_loop_and_test_case_by_language_type(
@@ -163,6 +170,17 @@ def make_complete_below_code_text(raw_solution_code_text, complete_below_code_te
 def make_our_world_colourful(language=default_language, question_number=default_question_number):
     try:
         soup = get_soup(question_number, language)
+        available_languages = soup.find('div', {'id': 'tour7'}).find_all('a', {'class': 'dropdown-item'})
+
+        language_arr = []
+        for lan in available_languages:
+            language_arr.append(lan.text)
+
+        if LANGUAGE_TYPE[language] not in language_arr:
+            error_type = 'LANGUAGE NOT AVAILABLE'
+            throw_error(error_type)
+            return
+
     except:
         error_type = 'QUESTION NOT EXIST'
         throw_error(error_type)
@@ -191,6 +209,19 @@ def what_colour_is_it(question_number):
     # TODO: 없는 페이지일 때 어떻게 나오는지 확인할 것
     try:
         soup = get_soup(question_number)
+        available_languages = soup.find('div', {'id': 'tour7'}).find_all('a', {'class': 'dropdown-item'})
+
+        language_arr = []
+        for lan in available_languages:
+            language_arr.append(lan.text)
+
+        # FIXME: HARDCODING BELOW
+        if 'JavaScript' not in language_arr or 'Python3' not in language_arr:
+            error_type = 'LANGUAGE NOT AVAILABLE'
+            throw_error(error_type)
+            return
+
+
     except:
         error_type = 'QUESTION NOT EXIST'
         throw_error(error_type)
@@ -228,6 +259,11 @@ if __name__ == '__main__':
     is_name_only = sys.argv[1]
     selected_language = sys.argv[2]
     question_number = sys.argv[3]
+
+    # Code for test
+    # is_name_only = 'N'
+    # selected_language = 'python3'
+    # question_number = '59043'
 
     if is_name_only == 'Y':
         what_colour_is_it(question_number)

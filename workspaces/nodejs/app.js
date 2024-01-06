@@ -11,8 +11,9 @@ const port = 8000;
 // };
 
 const ERRORS = {
-	QUESTION_NOT_EXIST: "QUESTION NOT EXIST",
-	CRAWLING_ERROR: "CRAWLING ERROR",
+  QUESTION_NOT_EXIST: "QUESTION NOT EXIST",
+  CRAWLING_ERROR: "CRAWLING ERROR",
+  LANGUAGE_ERROR: "LANGUAGE NOT AVAILABLE",
 };
 
 let langReqCounter = 0;
@@ -72,59 +73,64 @@ let langReqCounter = 0;
 
 let questionReqCounter = 0;
 app.get("/question/:questionNo", (req, res) => {
-	const questionNo = req.params.questionNo;
+  const questionNo = req.params.questionNo;
 
-	let selectedLanguage = "";
-	let isNameOnly = "";
+  let selectedLanguage = "";
+  let isNameOnly = "";
 
-	if (req.query.isNameOnly) {
-		isNameOnly = "Y";
-	} else {
-		isNameOnly = "N";
-		selectedLanguage = req.query.selectedLanguage;
-	}
+  if (req.query.isNameOnly) {
+    isNameOnly = "Y";
+  } else {
+    isNameOnly = "N";
+    selectedLanguage = req.query.selectedLanguage;
+  }
 
-	console.log("GET Request | /question");
+  console.log("GET Request | /question");
 
-	const result = spawn("python", [
-		"./crawling/get_question.py",
-		isNameOnly,
-		selectedLanguage,
-		questionNo,
-	]);
+  const result = spawn("python", [
+    "./crawling/get_question.py",
+    isNameOnly,
+    selectedLanguage,
+    questionNo,
+  ]);
 
-	result.stdout.on("data", (data) => {
-		questionReqCounter += 1;
-		console.log(`Request counts: ${questionReqCounter}`);
-		console.log("Request finished\n");
+  result.stdout.on("data", (data) => {
+    questionReqCounter += 1;
 
-		const dataString = data.toString();
-		const resJson = JSON.parse(dataString);
+    console.log(`Request counts: ${questionReqCounter}`);
+    console.log("Request finished\n");
 
-		if (resJson.status === "failed") {
-			if (resJson.message === ERRORS.QUESTION_NOT_EXIST) {
-				console.log(ERRORS.QUESTION_NOT_EXIST);
+    const dataString = data.toString();
+    const resJson = JSON.parse(dataString);
 
-				return res.status(204).send({ message: ERRORS.QUESTION_NOT_EXIST });
-			} else if (resJson.message === ERRORS.CRAWLING_ERROR) {
-				console.log(ERRORS.CRAWLING_ERROR);
+    if (resJson.status === "failed") {
+      if (resJson.message === ERRORS.QUESTION_NOT_EXIST) {
+        console.log(ERRORS.QUESTION_NOT_EXIST);
 
-				return res.status(500).send({ message: ERRORS.CRAWLING_ERROR });
-			}
-		} else if (resJson.status === "success") {
-			const dataResult = {
-				data: resJson.data,
-			};
+        return res.status(204).send({ message: ERRORS.QUESTION_NOT_EXIST });
+      } else if (resJson.message === ERRORS.CRAWLING_ERROR) {
+        console.log(ERRORS.CRAWLING_ERROR);
 
-			res.send(dataResult);
-		}
-	});
+        return res.status(500).send({ message: ERRORS.CRAWLING_ERROR });
+      } else if (resJson.message === ERRORS.LANGUAGE_ERROR) {
+        console.log(ERRORS.LANGUAGE_ERROR);
 
-	result.stderr.on("error", (error) => {
-		console.error(error.toString());
-	});
+        return res.status(400).send({ message: ERRORS.LANGUAGE_ERROR });
+      }
+    } else if (resJson.status === "success") {
+      const dataResult = {
+        data: resJson.data,
+      };
+
+      res.send(dataResult);
+    }
+  });
+
+  result.stderr.on("error", (error) => {
+    console.error(error.toString());
+  });
 });
 
 app.listen(port, () => {
-	console.log("The Server is launched: http://localhost:8000");
+  console.log("The Server is launched: http://localhost:8000");
 });

@@ -131,14 +131,24 @@ const SearchBar = ({
   const fetchPreviewQuestionName = async (enteredValue: string) => {
     previewStatusHandler("pending");
     const nameResult = await getQuestionName(enteredValue);
-    if (nameResult && nameResult.isSuccess) {
-      const {
-        data: { title: questionName },
-      } = nameResult;
-      previewStatusHandler("fulfilled");
-      previewInfoHandler(questionName);
 
-      setIsValidQuestion(true);
+    console.log("nameResult: ", nameResult);
+
+    if (nameResult) {
+      if (nameResult.isSuccess) {
+        const {
+          data: { title: questionName },
+        } = nameResult;
+        previewStatusHandler("fulfilled");
+        previewInfoHandler(questionName);
+
+        setIsValidQuestion(true);
+      } else {
+        previewStatusHandler("errorOccured");
+        previewInfoHandler(nameResult.error!);
+
+        setIsValidQuestion(false);
+      }
     } else {
       previewStatusHandler("rejected");
 
