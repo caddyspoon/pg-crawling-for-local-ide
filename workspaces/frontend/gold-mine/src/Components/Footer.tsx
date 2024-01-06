@@ -9,7 +9,7 @@ const Footer = () => {
         있습니다.
       </p>
       <p>
-        ⓒ 2023{" "}
+        ⓒ 2023-2024{" "}
         <span>
           <a
             href="https://github.com/caddyspoon"

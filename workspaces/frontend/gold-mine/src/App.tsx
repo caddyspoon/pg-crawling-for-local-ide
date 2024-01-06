@@ -1,6 +1,6 @@
 import { useMediaQuery } from "react-responsive";
 
-import NoticeForMobile from "../src/Components/UI/NoticeForMobile";
+import NoticeForMobile from "./Components/UI/NoticeForMobile";
 
 import Main from "./Components/Main";
 import Footer from "./Components/Footer";

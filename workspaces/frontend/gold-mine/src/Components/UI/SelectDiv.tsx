@@ -1,26 +1,37 @@
-import { useState, useEffect, useRef } from "react";
-
+import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-
 import style from "./SelectDiv.module.css";
 
-// This hook is based on link below
-// https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
-function useOutsideAlerter(ref, isShowUp, turnShowUp) {
-  useEffect(() => {
-    if (isShowUp) {
-      function handleClickOutside(event) {
-        if (ref.current && !ref.current.contains(event.target)) {
-          turnShowUp();
-        }
-      }
-      document.addEventListener("mousedown", handleClickOutside);
+interface SelectOptions {
+  [key: string]: string;
+}
 
-      return () => {
-        document.removeEventListener("mousedown", handleClickOutside);
-      };
+interface SelectDivProps {
+  initText: string;
+  selectedValue: string;
+  onChangeHandler: (value: string) => void;
+  selectOptions: SelectOptions;
+  customClassName?: string;
+}
+
+function useOutsideAlerter(
+  ref: React.RefObject<HTMLDivElement>,
+  isShowUp: boolean,
+  turnShowUp: () => void
+) {
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent): void => {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        turnShowUp();
+      }
+    };
+    if (isShowUp) {
+      document.addEventListener("mousedown", handleClickOutside);
     }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, [ref, isShowUp, turnShowUp]);
 }
 
@@ -30,33 +41,34 @@ const SelectDiv = ({
   onChangeHandler,
   selectOptions,
   customClassName = "",
-}) => {
+}: SelectDivProps) => {
   const [isSelected, setIsSelected] = useState(false);
   const [isShowUp, setIsShowUp] = useState(false);
   const [innerText, setInnerText] = useState(initText);
 
-  const buttonRef = useRef(null);
+  const buttonRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (selectedValue) {
       setIsSelected(true);
     }
-  }, [isSelected, selectedValue]);
-
-  const onClickHandler = (event) => {
-    if (event.target.tagName.toUpperCase() === "LI") {
-      onChangeHandler(event.target.dataset["value"]);
-      setInnerText(event.target.innerText);
-      turnShowUp();
-      return;
-    }
-  };
+  }, [selectedValue]);
 
   const turnShowUp = () => {
     setIsShowUp(!isShowUp);
   };
 
-  const optionListWrapperRef = useRef(null);
+  const onClickHandler = (event: React.MouseEvent<HTMLUListElement>) => {
+    const crntTarget = event.target as HTMLLIElement;
+    if (crntTarget.tagName.toUpperCase() === "LI") {
+      onChangeHandler(crntTarget.dataset.value!);
+      setInnerText(crntTarget.innerText);
+      turnShowUp();
+      return;
+    }
+  };
+
+  const optionListWrapperRef = useRef<HTMLDivElement | null>(null);
   useOutsideAlerter(optionListWrapperRef, isShowUp, turnShowUp);
 
   return (
@@ -82,15 +94,13 @@ const SelectDiv = ({
         </div>
       </div>
       <ul
-        className={
-          `${isShowUp ? style["show-up"] : style["good-bye"]}` +
-          " " +
-          `${style["option-list"]}`
-        }
+        className={`${isShowUp ? style["show-up"] : style["good-bye"]} ${
+          style["option-list"]
+        }`}
         onClick={onClickHandler}
       >
         {Object.keys(selectOptions).map((key) => (
-          <li data-value={key} key={key} className={`${style["option"]}`}>
+          <li data-value={key} key={key} className={style["option"]}>
             {selectOptions[key]}
           </li>
         ))}
