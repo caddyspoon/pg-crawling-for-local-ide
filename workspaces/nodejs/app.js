@@ -107,7 +107,7 @@ app.get("/question/:questionNo", (req, res) => {
       if (resJson.message === ERRORS.QUESTION_NOT_EXIST) {
         console.log(ERRORS.QUESTION_NOT_EXIST);
 
-        return res.status(204).send({ message: ERRORS.QUESTION_NOT_EXIST });
+        return res.status(404).send({ message: ERRORS.QUESTION_NOT_EXIST });
       } else if (resJson.message === ERRORS.CRAWLING_ERROR) {
         console.log(ERRORS.CRAWLING_ERROR);
 
