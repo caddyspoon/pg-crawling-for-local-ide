@@ -60,11 +60,10 @@ const fetchGetRequest = async (requestURL: string) => {
       } else if (response.status === 404) {
         // TODO: 에러처리 더 우아하게
         const errorBody = await response.json();
+        console.log(errorBody, 101);
 
-        if (errorBody.message) {
-          if (errorBody.message === "LANGUAGE NOT AVAILABLE") {
-            KorMessage = NOT_AVAILABLE_LAN;
-          }
+        if (errorBody === "LANGUAGE NOT AVAILABLE") {
+          KorMessage = NOT_AVAILABLE_LAN;
         }
       }
 
