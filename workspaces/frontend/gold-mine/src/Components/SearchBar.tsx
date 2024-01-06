@@ -132,8 +132,6 @@ const SearchBar = ({
     previewStatusHandler("pending");
     const nameResult = await getQuestionName(enteredValue);
 
-    console.log("nameResult: ", nameResult);
-
     if (nameResult) {
       if (nameResult.isSuccess) {
         const {
