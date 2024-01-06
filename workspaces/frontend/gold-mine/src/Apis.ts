@@ -46,24 +46,24 @@ const fetchGetRequest = async (requestURL: string) => {
           data: data,
         };
       } else if (response.status === 204) {
+        // TODO: 에러처리 더 우아하게
+        const errorBody = await response.json();
+
+        if (errorBody.message) {
+          if (errorBody.message === "LANGUAGE NOT AVAILABLE") {
+            return {
+              isSuccess: false,
+              error: NOT_AVAILABLE_LAN,
+            };
+          }
+        }
+
         return {
           isSuccess: false,
           error: QUESTION_NOT_EXIST_KOR,
         };
       }
     } else {
-      // TODO: 에러처리 더 우아하게
-      const errorBody = await response.json();
-
-      if (errorBody.message) {
-        if (errorBody.message === "LANGUAGE NOT AVAILABLE") {
-          return {
-            isSuccess: false,
-            error: NOT_AVAILABLE_LAN,
-          };
-        }
-      }
-
       let KorMessage = BASIC_ERROR_KOR;
       if (response.status === 400) {
         KorMessage = ERROR_400_KOR;
