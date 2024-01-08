@@ -37,8 +37,10 @@ def get_question_name(soup):
 
 def make_test_case_string(soup, language):
     # Step 1. Get Test Cases
-    qdiv = soup.find('div', {'id': 'tour2'}).find('div').find('div').find_all('table')
-    target_qdiv = qdiv[-1]
+    q_paraent_table = soup.find('h5', string='입출력 예')
+    if not q_paraent_table:
+        q_paraent_table = soup.find('h5', string='Example')
+    target_qdiv = q_paraent_table.find_next('table')
 
     # Step 1-1. Get Test Case Params' Names
     q_params = target_qdiv.find('thead').find_all('th')
@@ -262,14 +264,14 @@ def throw_error(message):
 
 
 if __name__ == '__main__':
-    is_name_only = sys.argv[1]
-    selected_language = sys.argv[2]
-    question_number = sys.argv[3]
+    # is_name_only = sys.argv[1]
+    # selected_language = sys.argv[2]
+    # question_number = sys.argv[3]
 
     # Code for a test
-    # is_name_only = 'N'
-    # selected_language = 'python3'
-    # question_number = '12909'
+    is_name_only = 'N'
+    selected_language = 'python3'
+    question_number = '258712'
 
     if is_name_only == 'Y':
         what_colour_is_it(question_number)
