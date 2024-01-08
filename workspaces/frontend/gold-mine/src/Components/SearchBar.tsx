@@ -198,7 +198,14 @@ const SearchBar = ({
     }
 
     if (resData.isSuccess) {
-      navigator.clipboard.writeText(resData.data.questionCode);
+      const resultText = resData.data.questionCode;
+
+      // Code For Safari
+      setTimeout(() => {
+        navigator.clipboard.writeText(resultText);
+      }, 0);
+
+      // navigator.clipboard.writeText(resData.data.questionCode);
 
       Swal.fire({
         title: "성공적으로 복사했어요!",

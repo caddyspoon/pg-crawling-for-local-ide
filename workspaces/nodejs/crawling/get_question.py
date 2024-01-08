@@ -70,6 +70,12 @@ def make_test_case_string(soup, language):
 
 def make_test_case_string_by_language_type(test_case_arr, language):
     if language in ['python3', 'javascript']:
+
+        if language == 'python3':
+            for i in range(len(test_case_arr)):
+                test_case_arr[i] = test_case_arr[i].replace('true', 'True')
+                test_case_arr[i] = test_case_arr[i].replace('false', 'False')
+
         test_case_string = ', '.join(
             [f'[{test_case_str}]' for test_case_str in test_case_arr])
 
@@ -260,10 +266,10 @@ if __name__ == '__main__':
     selected_language = sys.argv[2]
     question_number = sys.argv[3]
 
-    # Code for test
+    # Code for a test
     # is_name_only = 'N'
     # selected_language = 'python3'
-    # question_number = '59043'
+    # question_number = '12909'
 
     if is_name_only == 'Y':
         what_colour_is_it(question_number)
