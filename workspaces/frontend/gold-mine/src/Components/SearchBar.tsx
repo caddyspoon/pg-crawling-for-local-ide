@@ -201,18 +201,28 @@ const SearchBar = ({
       const resultText = resData.data.questionCode;
 
       // Code For Safari
-      setTimeout(() => {
-        navigator.clipboard.writeText(resultText);
-      }, 0);
+      const userAgent = navigator.userAgent;
+      console.log("this useAgent: ", userAgent);
+      const isSafari = /Safari/.test(userAgent) && !/Chrome/.test(userAgent);
 
-      // navigator.clipboard.writeText(resData.data.questionCode);
+      if (isSafari) {
+        Swal.fire({
+          title: "문제를 성공적으로 가져왔습니다.",
+          text: `[${resData.data.title}]의 코드를 가져왔습니다.`,
+          footer:
+            "OK 버튼 클릭 시 복사됩니다. 버튼을 누른 후 IDE에 붙여넣기 하세요!",
+          confirmButtonColor: COLOR_PALETTE.CLASSIC_BLUE,
+        }).then(() => navigator.clipboard.writeText(resultText));
+      } else {
+        navigator.clipboard.writeText(resData.data.questionCode);
 
-      Swal.fire({
-        title: "성공적으로 복사했어요!",
-        text: `[${resData.data.title}]의 코드를 가져왔습니다.`,
-        footer: "코드가 클립보드에 복사되었습니다. IDE에 붙여넣기 하세요!",
-        confirmButtonColor: COLOR_PALETTE.CLASSIC_BLUE,
-      });
+        Swal.fire({
+          title: "성공적으로 복사했어요!",
+          text: `[${resData.data.title}]의 코드를 가져왔습니다.`,
+          footer: "코드가 클립보드에 복사되었습니다. IDE에 붙여넣기 하세요!",
+          confirmButtonColor: COLOR_PALETTE.CLASSIC_BLUE,
+        });
+      }
     } else {
       Swal.fire({
         title: resData.error,
