@@ -202,7 +202,6 @@ const SearchBar = ({
 
       // Code For Safari
       const userAgent = navigator.userAgent;
-      console.log("this useAgent: ", userAgent);
       const isSafari = /Safari/.test(userAgent) && !/Chrome/.test(userAgent);
 
       if (isSafari) {
