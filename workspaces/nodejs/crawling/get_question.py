@@ -32,7 +32,12 @@ def get_soup(question_number, language=""):
 
 
 def get_question_name(soup):
-    return soup.find('ul', {'id': 'tab'}).find('li').text.strip()
+    # ver 0.1
+    # return soup.find('ul', {'id': 'tab'}).find('li').text.strip()
+    
+    # ver 0.2
+    # 24.02.14 -> 
+    return soup.find('span', {'class': 'challenge-title'}).text.strip()
 
 
 def make_test_case_string(soup, language):
